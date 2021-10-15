@@ -17,4 +17,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\NashShop_ViewModel\NashShop_ViewModel.csproj" />
+  </ItemGroup>
+
 </Project>
