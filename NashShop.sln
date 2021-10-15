@@ -5,7 +5,12 @@ VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NashShop_BackendApi", "NashShop_BackendApi\NashShop_BackendApi.csproj", "{061A3DC6-A137-4CF2-B748-3DDF78A75869}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NashShop_ViewModel", "NashShop_ViewModel\NashShop_ViewModel.csproj", "{E8C56E43-0173-4953-B45F-C70CA7073438}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NashShop_ViewModel", "NashShop_ViewModel\NashShop_ViewModel.csproj", "{E8C56E43-0173-4953-B45F-C70CA7073438}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0. Readme", "0. Readme", "{918D0539-74CF-44FB-BD80-85028CB3918E}"
+	ProjectSection(SolutionItems) = preProject
+		NashShop_BackendApi\Readme.md = NashShop_BackendApi\Readme.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
