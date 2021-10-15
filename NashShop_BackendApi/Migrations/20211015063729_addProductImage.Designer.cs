@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NashShop_BackendApi.Data.EF;
 
 namespace NashShop_BackendApi.Migrations
 {
     [DbContext(typeof(NashShopDbContext))]
-    partial class NashShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211015063729_addProductImage")]
+    partial class addProductImage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -245,6 +247,9 @@ namespace NashShop_BackendApi.Migrations
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
+
+                    b.Property<int>("Stock")
+                        .HasColumnType("int");
 
                     b.Property<int>("ViewCount")
                         .HasColumnType("int");
