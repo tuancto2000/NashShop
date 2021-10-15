@@ -8,17 +8,16 @@ using System.Threading.Tasks;
 
 namespace NashShop_BackendApi.Data.Configurations
 {
-    public class ProductConfiguration : IEntityTypeConfiguration<Product>
+    public class CategoryConfiguration : IEntityTypeConfiguration<Category>
     {
-        public void Configure(EntityTypeBuilder<Product> builder)
+        public void Configure(EntityTypeBuilder<Category> builder)
         {
-            builder.ToTable("Products");
+            builder.ToTable("Categories");
 
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).UseIdentityColumn();
-            builder.Property(x => x.Price).IsRequired();
-            builder.HasOne(x => x.Category).WithMany(x => x.Products).HasForeignKey(x => x.CategotyId);
-        }
+            
 
+        }
     }
 }
