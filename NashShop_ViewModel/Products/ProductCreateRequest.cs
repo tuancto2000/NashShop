@@ -15,5 +15,7 @@ namespace NashShop_ViewModel.Products
         public string Name { set; get; }
         public string Description { set; get; }
         public IFormFile Image { get; set; }
+        public bool? IsFeatured { get; set; }
+        public int CategoryId { get; set; }
     }
 }

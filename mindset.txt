@@ -1,0 +1,48 @@
+1. tạo db với entity framework
+	customer, cart, order, orderdetail, identity 4, rating,, product
+	
+	customer --> cart --> cartdetail <-- product
+	customer --> order --> orderdetail <-- product
+	customer --> rating <-- product
+2. BE API
+	- product service
+		+ GetAllPaging
+		+ GetProductbyCategory
+		+ GetbyId
+	- category service
+		+ getAll (navigation)
+	- user service
+		+ register
+		+ login
+		+ logout
+	- order service
+		...
+	- cart service
+		...
+3. Customer site
+	- ...
+4. admin site
+
+5. share model
+
+
+post, update : frombody
+get,delete: fromquery
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Use hardware acceleration when available
