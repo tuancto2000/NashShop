@@ -13,14 +13,14 @@ namespace NashShop_BackendApi.Data.Entities
         public string Description { set; get; }
         public int ViewCount { set; get; }
         public int CategotyId { get; set; }
-        public bool? IsFeatured { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
+        public bool? IsFeatured { get; set; }
         public Category Category { get; set; }
         public List<OrderDetail> OrderDetails { get; set; }
         public List<CartDetail> CartDetails { get; set; }
-        public List<ProductImage> ProductImages { get; set; }
         public List<Rating> Ratings { get; set; }
+        public List<ProductImage> ProductImages { get; set; }
 
     }
 }
