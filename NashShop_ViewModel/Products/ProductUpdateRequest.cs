@@ -16,5 +16,6 @@ namespace NashShop_ViewModel.Products
         [Required]
         public string Description { set; get; }
         public IFormFile Image { get; set; }
+        public bool? IsFeatured { get; set; }
     }
 }

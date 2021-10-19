@@ -14,7 +14,8 @@ namespace NashShop_BackendApi.Data.Entities
         public OrderStatus Status { set; get; }
 
         public List<OrderDetail> OrderDetails { get; set; }
-
+        public DateTime DateCreated { get; set; }
+        public DateTime DateUpdated { get; set; }
         public User User { get; set; }
     }
 }

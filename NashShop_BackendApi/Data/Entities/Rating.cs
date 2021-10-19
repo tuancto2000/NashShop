@@ -11,6 +11,7 @@ namespace NashShop_BackendApi.Data.Entities
         public Guid UserId { get; set; }
         public int ProductId { get; set; }
         public int Stars { get; set; }
+        public DateTime DateCreated { get; set; }
         public User User { get; set; }
         public Product Product { get; set; }
     }
