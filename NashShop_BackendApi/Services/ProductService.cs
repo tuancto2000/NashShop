@@ -121,7 +121,9 @@ namespace NashShop_BackendApi.Services
                 Description = product.Description,
                 Category = category.Name,
                 ViewCount = product.ViewCount,
-                ImagePath = image != null ? image.ImagePath : "no-image.jpg"
+                ImagePath = image != null ? image.ImagePath : "no-image.jpg",
+                DateCreated = product.DateCreated,
+                DateUpdated = product.DateUpdated
             };
             return productViewModel;
 

@@ -20,10 +20,12 @@ namespace NashShop_BackendApi.Services
         Task<int> UpdatePrice(int productId, double newPrice);
         Task AddViewcount(int productId);
         Task<int> AddImage(int productId, ProductImageCreateRequest image);
-        Task<int> RemoveImage(int imageId);
+
+        Task<int> RemoveImage(int productId);
         Task<PagedResult<ProductVM>> GetAllPaging(ProductPagingRequest request);
+
         Task<int> UpdateImage(int imageId, ProductImageUpdateRequest request);
+        Task<List<ProductVM>> GetFeaturedProducts(int take);
         Task<ProductImageViewModel> GetImageById(int imageId);
-        Task<List<ProductVM>> GetFeaturedProducts( int take);
     }
 }
