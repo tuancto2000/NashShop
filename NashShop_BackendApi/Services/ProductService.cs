@@ -43,7 +43,8 @@ namespace NashShop_BackendApi.Services
             {
                 productImage.ImagePath = await this.SaveFile(request.ImageFile);
             }
-            _context.Products.Update(product);
+            _context.ProductImages.Add(productImage);
+            
             return await _context.SaveChangesAsync();
         }
 

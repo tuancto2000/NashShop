@@ -13,11 +13,11 @@ namespace NashShop_BackendApi.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
 
-        public ProductController(IProductService productService)
+        public ProductsController(IProductService productService)
         {
             _productService = productService;
         }
@@ -106,7 +106,6 @@ namespace NashShop_BackendApi.Controller
         }
 
         [HttpPut("{productId}/images/{imageId}")]
-        [Authorize]
         public async Task<IActionResult> UpdateImage(int imageId, [FromForm] ProductImageUpdateRequest request)
         {
             if (!ModelState.IsValid)
@@ -121,7 +120,6 @@ namespace NashShop_BackendApi.Controller
         }
 
         [HttpDelete("{productId}/images/{imageId}")]
-        [Authorize]
         public async Task<IActionResult> RemoveImage(int imageId)
         {
             if (!ModelState.IsValid)
