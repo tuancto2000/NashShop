@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using NashShop_BackendApi.Data.EF;
 using NashShop_BackendApi.Data.Entities;
+using NashShop_BackendApi.Interfaces;
 using NashShop_ViewModel.ProductImages;
 using NashShop_ViewModel.Products;
 using NashShop_ViewModel.Shared;

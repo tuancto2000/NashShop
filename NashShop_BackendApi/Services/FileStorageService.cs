@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using NashShop_BackendApi.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;

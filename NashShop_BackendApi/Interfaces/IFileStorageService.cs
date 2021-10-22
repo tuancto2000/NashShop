@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NashShop_BackendApi.Services
+namespace NashShop_BackendApi.Interfaces
 {
     public interface IFileStorageService
     {
