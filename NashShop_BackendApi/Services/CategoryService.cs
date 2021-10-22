@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NashShop_BackendApi.Data.EF;
+using NashShop_BackendApi.Interfaces;
 using NashShop_ViewModel.Categories;
 using System;
 using System.Collections.Generic;

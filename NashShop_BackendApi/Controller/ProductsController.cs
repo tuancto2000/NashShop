@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NashShop_BackendApi.Interfaces;
 using NashShop_BackendApi.Services;
 using NashShop_ViewModel.ProductImages;
 using NashShop_ViewModel.Products;

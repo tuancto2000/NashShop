@@ -1,12 +1,15 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using NashShop_BackendApi.Data.EF;
+using NashShop_BackendApi.Data.Entities;
+using NashShop_BackendApi.Interfaces;
 using NashShop_BackendApi.Services;
 using System;
 using System.Collections.Generic;
@@ -29,7 +32,9 @@ namespace NashShop_BackendApi
             services.AddControllersWithViews();
             services.AddDbContext<NashShopDbContext>(
         options => options.UseSqlServer(configuration.GetConnectionString("NashShopDb")));
-
+            services.AddIdentity<User, Role>()
+                .AddEntityFrameworkStores<NashShopDbContext>()
+                .AddDefaultTokenProviders();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger NashShop E-Commerce", Version = "v1" });
@@ -38,6 +43,10 @@ namespace NashShop_BackendApi
             // Add DI
             services.AddTransient<IFileStorageService, FileStorageService>();
             services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<UserManager<User>, UserManager<User>>();
+            services.AddTransient<SignInManager<User>, SignInManager<User>>();
+            services.AddTransient<RoleManager<Role>, RoleManager<Role>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
