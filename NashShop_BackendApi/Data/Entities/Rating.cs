@@ -14,5 +14,6 @@ namespace NashShop_BackendApi.Data.Entities
         public DateTime DateCreated { get; set; }
         public User User { get; set; }
         public Product Product { get; set; }
+        public string Comment { get; set; }
     }
 }

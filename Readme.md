@@ -1,4 +1,10 @@
 # This is the first phase in Rookies Nashtech : e-commerce website
-## Technologies
-- ASP.NET Core 3.1
-- Entity Framework Core 3.1
+## Pakage
+Data:
+	FluentValidation.AspNetCore
+	Microsoft.AspNetCore.Authentication.JwtBearer
+	Microsoft.AspNetCore.Identity.EntityFrameworkCore
+	Microsoft.EntityFrameworkCore.Design
+	Microsoft.EntityFrameworkCore.SqlServer
+	Microsoft.EntityFrameworkCore.Tools
+	Swashbuckle.AspNetCore
