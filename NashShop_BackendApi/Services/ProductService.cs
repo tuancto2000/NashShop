@@ -195,7 +195,8 @@ namespace NashShop_BackendApi.Services
             //1. join product and category
             var query = from p in _context.Products
                         join c in _context.Categories on p.CategotyId equals c.Id
-                        join pi in _context.ProductImages on p.Id equals pi.ProductId
+                        join pi in _context.ProductImages on p.Id equals pi.ProductId into pic
+                        from pi in pic.DefaultIfEmpty()
                         where pi.IsDefault == true
                         select new { p, c, pi };
             //2. Filter
@@ -207,6 +208,7 @@ namespace NashShop_BackendApi.Services
             var data = await query.Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize)
                 .Select(x => new ProductVM()
                 {
+                    Id = x.p.Id,
                     Name = x.p.Name,
                     Price = x.p.Price,
                     Description = x.p.Description,
@@ -238,7 +240,6 @@ namespace NashShop_BackendApi.Services
                 productImage.Caption = request.Caption;
                 productImage.ImagePath = await this.SaveFile(request.ImageFile);
                 productImage.IsDefault = request.IsDefault;
-                productImage.DateUpdated = DateTime.Now;
 
             }
             _context.ProductImages.Update(productImage);
