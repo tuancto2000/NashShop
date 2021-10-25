@@ -32,7 +32,7 @@ namespace NashShop_BackendApi.Controller
             {
                 return BadRequest("Username or password is incorrect");
             }
-            return Ok(new { token = result });
+            return Ok(result);
         }
         [HttpPost("register")]
         [AllowAnonymous]
@@ -47,7 +47,7 @@ namespace NashShop_BackendApi.Controller
             {
                 return BadRequest("Register failed");
             }
-            return Ok(new { token = result });
+            return Ok(result);
         }
     }
 }
