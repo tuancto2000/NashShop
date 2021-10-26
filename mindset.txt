@@ -9,16 +9,21 @@
 		+ GetAllPaging
 		+ GetProductbyCategory
 		+ GetbyId
+		+ GetTopViewProduct
+		+ GetTopStarProduct
+	- cart service
+		+ AddItem
+		+ RemoveItem
+		+ GetCart
+		+ RemoveItem
+	- order service
+		+ Create order convert cart -> order
 	- category service
 		+ getAll (navigation)
 	- user service
 		+ register
 		+ login
 		+ logout
-	- order service
-		...
-	- cart service
-		...
 3. Customer site
 	- ...
 4. admin site

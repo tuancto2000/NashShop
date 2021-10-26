@@ -63,9 +63,8 @@ namespace NashShop_CustomerSite.Controllers
         {
             await HttpContext.SignOutAsync(
                         CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home"); 
         }
-
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Register()
