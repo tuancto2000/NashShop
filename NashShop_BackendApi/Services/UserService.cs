@@ -42,6 +42,7 @@ namespace NashShop_BackendApi.Services
             var claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.GivenName,user.FirstName),
+                new Claim(ClaimTypes.GivenName,user.LastName),
                 new Claim(ClaimTypes.Role, string.Join(";",roles)),
                 new Claim(ClaimTypes.Name, request.UserName)
             };

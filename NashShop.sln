@@ -12,7 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0. Readme", "0. Readme", "{
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NashShop_IdentityServer", "NashShop_IdentityServer\NashShop_IdentityServer.csproj", "{EC9C9176-9CCB-4C6C-94F6-6DC71BE5A230}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NashShop_CustomerSite", "NashShop_CustomerSite\NashShop_CustomerSite.csproj", "{B223B2B3-0794-42CC-8DF4-E13B31C34FD4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,10 +28,10 @@ Global
 		{E8C56E43-0173-4953-B45F-C70CA7073438}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8C56E43-0173-4953-B45F-C70CA7073438}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8C56E43-0173-4953-B45F-C70CA7073438}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EC9C9176-9CCB-4C6C-94F6-6DC71BE5A230}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EC9C9176-9CCB-4C6C-94F6-6DC71BE5A230}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EC9C9176-9CCB-4C6C-94F6-6DC71BE5A230}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EC9C9176-9CCB-4C6C-94F6-6DC71BE5A230}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B223B2B3-0794-42CC-8DF4-E13B31C34FD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B223B2B3-0794-42CC-8DF4-E13B31C34FD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B223B2B3-0794-42CC-8DF4-E13B31C34FD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B223B2B3-0794-42CC-8DF4-E13B31C34FD4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
