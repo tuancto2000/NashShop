@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using NashShop_BackendApi.Data.EF;
 using NashShop_BackendApi.Data.Entities;
 using NashShop_BackendApi.Interfaces;
+using NashShop_ViewModel;
 using NashShop_ViewModel.ProductImages;
 using NashShop_ViewModel.Products;
 using NashShop_ViewModel.Shared;
@@ -190,7 +191,7 @@ namespace NashShop_BackendApi.Services
             return "/" + USER_CONTENT_FOLDER_NAME + "/" + fileName;
         }
 
-        public async Task<PagedResult<ProductVM>> GetAllPaging(ProductPagingRequest request)
+        public async Task<PagedResult<ProductVM>> GetAllPaging(PagingRequest request)
         {
             //1. join product and category
             var query = from p in _context.Products
@@ -199,9 +200,6 @@ namespace NashShop_BackendApi.Services
                         from pi in pic.DefaultIfEmpty()
                         where pi.IsDefault == true
                         select new { p, c, pi };
-            //2. Filter
-            if (request.CategoryId != null)
-                query = query.Where(x => x.p.CategotyId == request.CategoryId);
 
             //3.Paging
             int totalRow = await query.CountAsync();

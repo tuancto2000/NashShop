@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NashShop_ViewModel.Products
+namespace NashShop_ViewModel
 {
-    public class ProductPagingRequest
+    public class PagingRequest
     {
+        public string Bearer { get; set; }
         public int PageIndex { get; set; }
-        public int? CategoryId { get; set; }
         public int PageSize { get; set; }
     }
 }

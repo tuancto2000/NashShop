@@ -7,20 +7,21 @@ using System.Threading.Tasks;
 
 namespace NashShop_ViewModel.Users
 {
-    public class RegisterRequest
+    public class UserVM
     {
-        [Required]
-        [StringLength(20, MinimumLength = 8)]
-        public string UserName { get; set; }
-        [Required]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$")]
-        [StringLength(20, MinimumLength = 8)]
-        public string Password { get; set; }
+        public Guid Id { get; set; }
 
+        [Display(Name = "Tên")]
         public string FirstName { get; set; }
 
+        [Display(Name = "Họ")]
         public string LastName { get; set; }
 
+        [Display(Name = "Tài khoản")]
+        public string UserName { get; set; }
+
+        [Display(Name = "Ngày sinh")]
         public DateTime Dob { get; set; }
+
     }
 }

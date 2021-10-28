@@ -1,7 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Http;
-using NashShop_BackendApi.Data.Entities;
-using NashShop_ViewModel;
+﻿using NashShop_ViewModel;
 using NashShop_ViewModel.ProductImages;
 using NashShop_ViewModel.Products;
 using NashShop_ViewModel.Shared;
@@ -10,11 +7,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NashShop_BackendApi.Interfaces
+namespace NashShop_CustomerSite.ApiClient
 {
-    public interface IProductService
+    public interface IProductApiClient
     {
-        Task<int> Create(ProductCreateRequest request);
+        Task<bool> Create(ProductCreateRequest request);
         Task<int> Update(ProductUpdateRequest request);
         Task<int> Delete(int productId);
         Task<ProductVM> GetById(int productId);

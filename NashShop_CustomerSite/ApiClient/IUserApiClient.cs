@@ -1,4 +1,6 @@
-﻿using NashShop_ViewModel.Users;
+﻿using NashShop_ViewModel;
+using NashShop_ViewModel.Shared;
+using NashShop_ViewModel.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +10,11 @@ namespace NashShop_CustomerSite.ApiClient
 {
     public interface IUserApiClient
     {
-        public Task<string> Authenticate(LoginRequest request);
+         Task<string> Authenticate(LoginRequest request);
 
-        public Task<string> Register(RegisterRequest request);
+         Task<bool> Register(RegisterRequest request);
+
+         Task<PagedResult<UserVM>> GetUsersPaging(PagingRequest request);
 
 
     }

@@ -26,6 +26,7 @@ namespace NashShop_CustomerSite
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient();
+            
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
@@ -66,7 +67,7 @@ namespace NashShop_CustomerSite
             app.UseRouting();
 
             app.UseAuthorization();
-
+            app.UseSession();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

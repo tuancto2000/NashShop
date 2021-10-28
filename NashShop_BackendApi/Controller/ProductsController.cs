@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NashShop_BackendApi.Interfaces;
 using NashShop_BackendApi.Services;
+using NashShop_ViewModel;
 using NashShop_ViewModel.ProductImages;
 using NashShop_ViewModel.Products;
 using System;
@@ -24,7 +25,7 @@ namespace NashShop_BackendApi.Controller
             _productService = productService;
         }
         [HttpGet("paging")]
-        public async Task<IActionResult> GetAllPaging([FromQuery] ProductPagingRequest request)
+        public async Task<IActionResult> GetAllPaging([FromQuery] PagingRequest request)
         {
             var products = await _productService.GetAllPaging(request);
             return Ok(products);

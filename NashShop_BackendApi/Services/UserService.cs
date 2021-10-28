@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using NashShop_BackendApi.Data.Entities;
 using NashShop_BackendApi.Interfaces;
+using NashShop_ViewModel;
+using NashShop_ViewModel.Shared;
 using NashShop_ViewModel.Users;
 using System;
 using System.Collections.Generic;
@@ -18,14 +21,12 @@ namespace NashShop_BackendApi.Services
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly RoleManager<Role> _roleManager;
         private readonly IConfiguration _configuration;
         public UserService(UserManager<User> userManager, SignInManager<User> signInManager, 
             RoleManager<Role> roleManager,IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _roleManager = roleManager;
             _configuration = configuration;
         }
         public async Task<string> Authenticate(LoginRequest request)
@@ -33,17 +34,15 @@ namespace NashShop_BackendApi.Services
             var user = await _userManager.FindByNameAsync(request.UserName);
             if (user == null)
                 throw new Exception($"Cannot find username {request.UserName}");
-            var result = await _signInManager.PasswordSignInAsync(user, request.Password, request.RememberMe, true);
+            var result = await _signInManager.PasswordSignInAsync(user, request.Password,true,true);
             if (!result.Succeeded)
             {
                 throw new Exception("Password is incorrect ");
             }
-            var roles = await _userManager.GetRolesAsync(user);
             var claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.GivenName,user.FirstName),
                 new Claim(ClaimTypes.GivenName,user.LastName),
-                new Claim(ClaimTypes.Role, string.Join(";",roles)),
                 new Claim(ClaimTypes.Name, request.UserName)
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
@@ -55,6 +54,34 @@ namespace NashShop_BackendApi.Services
                 expires: DateTime.Now.AddHours(1),
                 signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256));
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public async Task<PagedResult<UserVM>> GetUsersPaging(PagingRequest request)
+        {
+            var query = _userManager.Users;
+
+            //3. Paging
+            int totalRow = await query.CountAsync();
+
+            var data = await query.Skip((request.PageIndex - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .Select(x => new UserVM()
+                {
+                    UserName = x.UserName,
+                    FirstName = x.FirstName,
+                    Id = x.Id,
+                    LastName = x.LastName
+                }).ToListAsync();
+
+            //4. Select and projection
+            var pagedResult = new PagedResult<UserVM>()
+            {
+                TotalRecords = totalRow,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
+                Items = data
+            };
+            return pagedResult;
         }
 
         public async Task<bool> Register(RegisterRequest request)

@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using NashShop_ViewModel;
+using NashShop_ViewModel.Shared;
 using NashShop_ViewModel.Users;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -33,9 +36,30 @@ namespace NashShop_CustomerSite.ApiClient
 
         }
 
-        public async Task<string> Register(RegisterRequest request)
+        public async Task<PagedResult<UserVM>> GetUsersPaging(PagingRequest request)
         {
-            throw new NotImplementedException();
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri("https://localhost:5000");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Beaer", request.Bearer);
+
+            var response = await client.GetAsync($"/api/users/paging?pageIndex={request.PageIndex}" +
+                $"&pageSize={request.PageSize}");
+            var user = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<PagedResult<UserVM>>(user);
+        }
+
+        public async Task<bool> Register(RegisterRequest request)
+        {
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri("https://localhost:5000");
+
+            var json = JsonConvert.SerializeObject(request);
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await client.PostAsync($"/api/users", httpContent);
+
+            return response.IsSuccessStatusCode;
         }
     }
 }
