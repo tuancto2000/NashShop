@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
+using NashShop_ViewModel.Categories;
+using NashShop_ViewModel.ProductImages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +18,10 @@ namespace NashShop_ViewModel.Products
         public DateTime DateUpdated { get; set; }
         public string Description { set; get; }
         public string? ImagePath { get; set; }
-        public string Category { get; set; }
-        public int ViewCount { get; set; }
-        public bool? IsFeatured { get; set; }
+        public CategoryVM ProductCategory { get; set; }
+        public double Star { get; set; }
+        public int RatingCount { get; set; }
+        public List<ProductImageVM> Images { get; set; }
     }
 }
+

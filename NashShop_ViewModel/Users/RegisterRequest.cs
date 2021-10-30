@@ -13,14 +13,16 @@ namespace NashShop_ViewModel.Users
         [StringLength(20, MinimumLength = 8)]
         public string UserName { get; set; }
         [Required]
+        public string FirstName { get; set; }
+        [Required]
+        public string LastName { get; set; }
+        [Required]
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$")]
         [StringLength(20, MinimumLength = 8)]
         public string Password { get; set; }
-
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
-
+        [Required]
+        public string ConfirmPassword { get; set; }
+        [Required]
         public DateTime Dob { get; set; }
     }
 }

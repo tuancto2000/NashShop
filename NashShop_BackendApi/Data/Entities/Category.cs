@@ -11,5 +11,6 @@ namespace NashShop_BackendApi.Data.Entities
         public string Name { set; get; }
         public string Description { get; set; }
         public List<Product> Products { get; set; }
+        public string ImagePath { get; set; }
     }
 }

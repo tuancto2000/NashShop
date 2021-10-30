@@ -24,9 +24,12 @@ namespace NashShop_BackendApi.Interfaces
 
         Task<int> RemoveImage(int productId);
         Task<PagedResult<ProductVM>> GetAllPaging(PagingRequest request);
-
+        Task<PagedResult<ProductVM>> GetByCategoryId(PagingRequest request,int categoryId);
         Task<int> UpdateImage(int imageId, ProductImageUpdateRequest request);
         Task<List<ProductVM>> GetFeaturedProducts(int take);
-        Task<ProductImageViewModel> GetImageById(int imageId);
+
+        Task<ProductImageVM> GetImageById(int imageId);
+        Task<bool> AddRating(ProductRatingRequest request);
+        Task<List<ProductImageVM>> GetProductImages(int productId);
     }
 }

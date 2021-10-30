@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="/css/style.css" type="text/css">
-</head> 
+</head>
 
 <body>
     <!-- Header Section Begin -->
@@ -31,19 +31,18 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
                         <div class="header__top__left">
-                            <ul>
-                                <li><i class="fa fa-envelope"></i> hello@colorlib.com</li>
-                                <li>Free Shipping for all Order of $99</li>
-                            </ul>
+                            @if (User.Identity.IsAuthenticated)
+                            {<p>Hello @User.Identity.Name</p>}
+                        else
+                        { <p>Hello guest</p>}
+
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <div class="header__top__right">
                             <div class="header__top__right__social">
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                                <a href="#"><i class="fa fa-linkedin"></i></a>
-                                <a href="#"><i class="fa fa-pinterest-p"></i></a>
+                                <a href="https://www.facebook.com/xuantuanhcmus.2000/"><i class="fa fa-facebook"></i></a>
+                                <a href="https://github.com/tuancto2000"><i class="fa fa-github"></i></a>
                             </div>
                             <div class="header__top__right__language">
                                 <img src="/img/language.png" alt="">
@@ -55,7 +54,10 @@
                                 </ul>
                             </div>
                             <div class="header__top__right__auth">
-                                <a href="#"><i class="fa fa-user"></i> Login</a>
+                                @if (User.Identity.IsAuthenticated)
+                                {<a href="/user/logout"><i class="fa fa-user"></i> Logout</a> }
+                                else
+                                {<a href="/user/login"><i class="fa fa-user"></i> Login</a>}
                             </div>
                         </div>
                     </div>
@@ -102,9 +104,7 @@
                 <i class="fa fa-bars"></i>
             </div>
         </div>
-    </header>
-    <!-- Header Section End -->
-    <!-- Hero Section Begin -->
+    </header> <!-- Header Section End --> <!-- Hero Section Begin -->
     <section class="hero">
         <div class="container">
             <div class="row">
@@ -112,7 +112,7 @@
                     <div class="hero__categories">
                         <div class="hero__categories__all">
                             <i class="fa fa-bars"></i>
-                            <span>All departments</span>
+                            <span>All combo</span>
                         </div>
                         <ul>
                             <li><a href="#">Fresh Meat</a></li>
@@ -137,77 +137,24 @@
                                     All Categories
                                     <span class="arrow_carrot-down"></span>
                                 </div>
-                                <input type="text" placeholder="What do yo u need?">
+                                <input type="text" placeholder="What do you need ?">
                                 <button type="submit" class="site-btn">SEARCH</button>
                             </form>
                         </div>
-                        <div class="hero__search__phone">
-                            <div class="hero__search__phone__icon">
-                                <i class="fa fa-phone"></i>
-                            </div>
-                            <div class="hero__search__phone__text">
-                                <h5>+65 11.188.888</h5>
-                                <span>support 24/7 time</span>
-                            </div>
-                        </div>
+
                     </div>
                     <div class="hero__item set-bg" data-setbg="/img/hero/banner.jpg">
                         <div class="hero__text">
-                            <span>FRUIT FRESH</span>
+                            <span>Fast food</span>
                             <h2>Vegetable <br />100% Organic</h2>
-                            <p>Free Pickup and Delivery Available</p>
-                            <a href="#" class="primary-btn">SHOP NOW</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    <!-- Hero Section End -->
-    <!-- Categories Section Begin -->
-    <section class="categories">
-        <div class="container">
-            <div class="row">
-                <div class="categories__slider owl-carousel">
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="/img/categories/cat-1.jpg">
-                            <h5><a href="#">Fresh Fruit</a></h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="/img/categories/cat-2.jpg">
-                            <h5><a href="#">Dried Fruit</a></h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="/img/categories/cat-3.jpg">
-                            <h5><a href="#">Vegetables</a></h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="/img/categories/cat-4.jpg">
-                            <h5><a href="#">drink fruits</a></h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="/img/categories/cat-5.jpg">
-                            <h5><a href="#">drink fruits</a></h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Categories Section End -->
-    <!-- Featured Section Begin -->
-    <section class="featured spad">
-        <div class="container">
-            @RenderBody()
-        </div>
-    </section>
-    <!-- Featured Section End -->
-    <!-- Banner Begin -->
-    <!--<div class="banner">
+    </section> <!-- Hero Section End -->
+    @RenderBody() <!-- Banner Begin -->
+    <div class="banner">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
@@ -222,9 +169,7 @@
                 </div>
             </div>
         </div>
-    </div>-->
-    <!-- Banner End -->
-    <!-- Latest Product Section Begin -->
+    </div> <!-- Banner End --> <!-- Latest Product Section Begin -->
     <!--<section class="latest-product spad">
         <div class="container">
             <div class="row">
@@ -426,8 +371,7 @@
             </div>
         </div>
     </section>-->
-    <!-- Latest Product Section End -->
-    <!-- Blog Section Begin -->
+    <!-- Latest Product Section End --> <!-- Blog Section Begin -->
     <!--<section class="from-blog spad">
         <div class="container">
             <div class="row">
@@ -486,8 +430,7 @@
             </div>
         </div>
     </section>-->
-    <!-- Blog Section End -->
-    <!-- Footer Section Begin -->
+    <!-- Blog Section End --> <!-- Footer Section Begin -->
     <footer class="footer spad">
         <div class="container">
             <div class="row">
@@ -533,33 +476,14 @@
                             <button type="submit" class="site-btn">Subscribe</button>
                         </form>
                         <div class="footer__widget__social">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-instagram"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-pinterest"></i></a>
+                            <a href="https://www.facebook.com/xuantuanhcmus.2000/"><i class="fa fa-facebook"></i></a>
+                            <a href="https://github.com/tuancto2000"><i class="fa fa-github"></i></a>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="footer__copyright">
-                        <div class="footer__copyright__text">
-                            <p>
-                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                                Copyright &copy;
-                                <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            </p>
-                        </div>
-                        <div class="footer__copyright__payment"><img src="/img/payment-item.png" alt=""></div>
                     </div>
                 </div>
             </div>
         </div>
-    </footer>
-    <!-- Footer Section End -->
-    <!-- Js Plugins -->
+    </footer> <!-- Footer Section End --> <!-- Js Plugins -->
     <script src="/js/jquery-3.3.1.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/jquery.nice-select.min.js"></script>

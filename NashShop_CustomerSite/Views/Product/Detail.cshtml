@@ -1,0 +1,107 @@
+﻿@model NashShop_ViewModel.Products.ProductVM
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration;
+<div class="section-title">
+    <h2>Detail</h2>
+</div>
+
+}
+<!-- Product Details Section Begin -->
+<section class="product-details spad">
+
+    <div class="container">
+        <ul class="featured__item__pic__hover" style="text-align:match-parent">
+            @for (int i = 0; i < 5; i++)
+            {
+                <li>
+                    <a asp-controller="Product" asp-action="Rating" asp-route-star="@i" asp-route-productId="@Model.Id">
+                        <i class="fa fa-star"></i>
+                    </a>
+                </li>
+            }
+        </ul>
+        <div class="row">
+            <div class="col-lg-6 col-md-6">
+                <div class="product__details__pic">
+
+                    <div class="product__details__pic__item">
+                        <img class="product__details__pic__item--large"
+                             src="@(Configuration["BaseAddress"] + Model.ImagePath)" alt="">
+                    </div>
+
+
+                    <div class="product__details__pic__slider owl-carousel">
+                        @foreach (var item in Model.Images)
+                        {
+                            <img data-imgbigurl="@(Configuration["BaseAddress"] + item.ImagePath)"
+                                 src="@(Configuration["BaseAddress"] + item.ImagePath)" alt="">
+                        }
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div class="product__details__text">
+                    <h3>@Model.Name</h3>
+                    @*Show Star*@
+                    <div class="product__details__rating">
+                        @{
+                            double star = Math.Ceiling(2.0 * Model.Star) / 2.0;
+                            double integer = (int)Model.Star * 1.0;
+                            for (int i = 0; i < integer; i++)
+                            {
+                                <i class="fa fa-star"></i>
+                            }
+                            if (star - integer > 0)
+                            {
+                                <i class="fa fa-star-half-full"></i>
+                            }
+                            for (int i = (int)integer + 1; i < 5; i++)
+                            {
+                                <i class="fa fa-star-o"></i>
+                            }
+
+                        }
+
+                        <span>(@Model.RatingCount reviews)</span>
+                    </div>
+
+                    <div class="product__details__price">$@Model.Price</div>
+                    <p>
+                    </p>
+                    <div class="product__details__quantity">
+                        <div class="quantity">
+                            <div class="pro-qty">
+                                <input type="text" value="1">
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="primary-btn">ADD TO CARD</a>
+                    <ul>
+                        <li><b>Availability</b> <span>In Stock</span></li>
+                        <li><b>Description</b> <span>@Model.Description</span></li>
+
+
+                    </ul>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/Scripts/jquery-3.5.1.min.js"></script>
+<script>
+    $(window).scroll(function () {
+        sessionStorage.scrollTop = $(this).scrollTop();
+    });
+    $(document).ready(function () {
+        if (sessionStorage.scrollTop != "undefined") {
+            $(window).scrollTop(sessionStorage.scrollTop);
+        }
+    });
+</script>
+<!-- Product Details Section End -->

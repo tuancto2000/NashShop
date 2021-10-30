@@ -122,14 +122,13 @@
 
 <body>
     <div class="main">
-        <p class="sign" align="center">Sign ina</p>
+        <p class="sign" align="center">Sign in</p>
         <form asp-action="Login" asp-controller="User" method="post">
             <input class="un " asp-for="UserName" type="text" placeholder="Username">
             <input class="pass" asp-for="Password" type="password" placeholder="Password">
-
             <button class="submit" align="center" type="submit">Login</button>
         </form>
-
+        <a asp-controller="User" asp-action="Create"><p class="sign" style="padding-left:10%;font-size:18px">You don't have account'</p></a>
 
     </div>
 

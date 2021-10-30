@@ -8,4 +8,9 @@
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.11" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Carts\" />
+    <Folder Include="Orders\" />
+  </ItemGroup>
+
 </Project>

@@ -9,5 +9,6 @@ namespace NashShop_BackendApi.Interfaces
     public interface ICategoryService
     {
         Task<List<CategoryVM>> GetAll();
+        Task<CategoryVM> GetById(int id);
     }
 }

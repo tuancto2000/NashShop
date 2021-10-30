@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NashShop_CustomerSite.Interfaces;
 using NashShop_CustomerSite.Models;
 using System;
 using System.Collections.Generic;
@@ -13,15 +14,28 @@ namespace NashShop_CustomerSite.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ICategoryApiClient _categoryApiClient;
+        private readonly IProductApiClient _productApiClient;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ICategoryApiClient categoryApiClient, 
+            IProductApiClient productApiClient)
         {
             _logger = logger;
+            _categoryApiClient = categoryApiClient;
+            _productApiClient = productApiClient;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();        }
+            var categories = await _categoryApiClient.GetAll();
+            var featuredProducts = await _productApiClient.GetFeaturedProducts(10);
+            var model = new HomeVM
+            {
+                Categories = categories,
+                FeaturedProducts = featuredProducts
+            };
+            return View(model);        
+        }
 
         public IActionResult Privacy()
         {

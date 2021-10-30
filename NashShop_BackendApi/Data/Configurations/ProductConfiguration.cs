@@ -18,6 +18,7 @@ namespace NashShop_BackendApi.Data.Configurations
             builder.Property(x => x.Id).UseIdentityColumn();
             builder.Property(x => x.Price).IsRequired();
             builder.HasOne(x => x.Category).WithMany(x => x.Products).HasForeignKey(x => x.CategotyId);
+
         }
 
     }

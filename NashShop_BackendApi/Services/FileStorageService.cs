@@ -11,7 +11,7 @@ namespace NashShop_BackendApi.Services
     public class FileStorageService : IFileStorageService
     {
         private readonly string _userContentFolder;
-        private const string USER_CONTENT_FOLDER_NAME = "images";
+        private const string USER_CONTENT_FOLDER_NAME = "user-content";
 
         public FileStorageService(IWebHostEnvironment webHostEnvironment)
         {

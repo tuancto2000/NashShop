@@ -23,8 +23,19 @@ namespace NashShop_BackendApi.Services
             return await query.Select(x => new CategoryVM()
             {
                 Id = x.Id,
-                Name = x.Name
+                Name = x.Name,
+                Image = x.ImagePath
             }).ToListAsync();
+        }
+        public async Task<CategoryVM> GetById(int categoryId)
+        {
+            var category = await _context.Categories.FindAsync(categoryId);
+            return new CategoryVM()
+            {
+                Id = category.Id,
+                Name = category.Name
+            };
+
         }
     }
 }

@@ -15,7 +15,7 @@ namespace NashShop_BackendApi.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+   // [Authorize]
     public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
@@ -25,19 +25,29 @@ namespace NashShop_BackendApi.Controller
             _productService = productService;
         }
         [HttpGet("paging")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAllPaging([FromQuery] PagingRequest request)
         {
             var products = await _productService.GetAllPaging(request);
             return Ok(products);
         }
+        [HttpGet("paging/{categoryId}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetByCategoryId(int categoryId,[FromQuery] PagingRequest request)
+        {
+            var products = await _productService.GetByCategoryId(request,categoryId);
+            return Ok(products);
+        }
         [HttpGet("featured/{take}")]
+        [AllowAnonymous]
+
         public async Task<IActionResult> GetFeaturedProducts(int take)
         {
-            var products = await _productService.GetFeaturedProducts( take);
+            var products = await _productService.GetFeaturedProducts(take);
             return Ok(products);
         }
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] ProductCreateRequest request)
+        public async Task<IActionResult> Create([FromBody] ProductCreateRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -51,6 +61,8 @@ namespace NashShop_BackendApi.Controller
 
         }
         [HttpGet("{productId}")]
+        [AllowAnonymous]
+
         public async Task<IActionResult> GetById( int productId)
         {
             var result = await _productService.GetById(productId);
@@ -60,7 +72,7 @@ namespace NashShop_BackendApi.Controller
 
         }
         [HttpPut]
-        public async Task<IActionResult> Update([FromForm] ProductUpdateRequest request)
+        public async Task<IActionResult> Update([FromBody] ProductUpdateRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -93,7 +105,7 @@ namespace NashShop_BackendApi.Controller
 
         //Images
         [HttpPost("{productId}/images")]
-        public async Task<IActionResult> CreateImage(int productId, [FromForm] ProductImageCreateRequest request)
+        public async Task<IActionResult> CreateImage(int productId, [FromBody] ProductImageCreateRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -109,7 +121,7 @@ namespace NashShop_BackendApi.Controller
         }
 
         [HttpPut("{productId}/images/{imageId}")]
-        public async Task<IActionResult> UpdateImage(int imageId, [FromForm] ProductImageUpdateRequest request)
+        public async Task<IActionResult> UpdateImage(int imageId, [FromBody] ProductImageUpdateRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -143,6 +155,26 @@ namespace NashShop_BackendApi.Controller
                 return BadRequest("Cannot find product");
             return Ok(image);
         }
+        [HttpPost("rating")]
+        public async Task<IActionResult> CreateRating([FromBody] ProductRatingRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var rating = await _productService.AddRating(request);
+            if (!rating)
+                return BadRequest();
+            return Ok();
+        }
 
+        [HttpGet("{productId}/images")]
+        public async Task<IActionResult> GetProductImages(int productId)
+        {
+            var images = await _productService.GetProductImages(productId);
+            if (images == null)
+                return BadRequest("Cannot find product");
+            return Ok(images);
+        }
     }
 }

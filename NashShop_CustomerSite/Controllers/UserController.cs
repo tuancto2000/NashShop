@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
-using NashShop_CustomerSite.ApiClient;
+using NashShop_CustomerSite.ApiClients;
+using NashShop_CustomerSite.Interfaces;
 using NashShop_ViewModel;
+using NashShop_ViewModel.Products;
 using NashShop_ViewModel.Users;
 using System;
 using System.Collections.Generic;
@@ -19,7 +21,6 @@ using System.Threading.Tasks;
 
 namespace NashShop_CustomerSite.Controllers
 {
-    [Authorize]
     public class UserController : Controller
     {
         private readonly IUserApiClient _userApiClient;
@@ -30,28 +31,14 @@ namespace NashShop_CustomerSite.Controllers
             _userApiClient = userApiClient;
             _configuration = configuration;
         }
-        public async Task<IActionResult> Index()
-        {
-            var sessions = HttpContext.Session.GetString("Token");
-            var request = new PagingRequest()
-            {
-                Bearer = sessions,
-                PageIndex = 0,
-                PageSize = 10
-            };
-            var users =await _userApiClient.GetUsersPaging(request);
-            return View(users);
 
-        }
 
         [HttpGet]
-        [AllowAnonymous]
         public async Task<IActionResult> Login()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return View();
         }
-        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Login(LoginRequest request)
         {
@@ -60,20 +47,18 @@ namespace NashShop_CustomerSite.Controllers
                 return View(request);
 
             var token = await _userApiClient.Authenticate(request);
+
             var principal = this.ValidateToken(token);
             var auth = new AuthenticationProperties
             {
                 ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(30),
-                //IsPersistent = true
+                IsPersistent = true
             };
-            HttpContext.Session.SetString("Token", token);
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme, principal, auth);
-
             return RedirectToAction("index", "home");
         }
-
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(
@@ -81,20 +66,27 @@ namespace NashShop_CustomerSite.Controllers
             HttpContext.Session.Remove("Token");
             return RedirectToAction("Index", "Home");
         }
+
         [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> Create()
+        public  IActionResult Create()
         {
             return View();
         }
-
         [HttpPost]
-        [AllowAnonymous]
         public async Task<IActionResult> Create(RegisterRequest registerRequest)
         {
             if (!ModelState.IsValid)
             {
-                return View(registerRequest);
+                string messages = string.Join("; ", ModelState.Values
+                                        .SelectMany(x => x.Errors)
+                                        .Select(x => x.ErrorMessage));
+                ViewBag.ErrorMessage =messages;
+                return View();
+            }
+            if(registerRequest.Password != registerRequest.ConfirmPassword)
+            {
+                ViewBag.ErrorMessage = "Confirm Password is incorrect";
+                return View();
             }
 
             var result = await _userApiClient.Register(registerRequest);
@@ -103,26 +95,15 @@ namespace NashShop_CustomerSite.Controllers
                 ModelState.AddModelError("", "Đăng ký thất bại ");
                 return View();
             }
-            var token = await _userApiClient.Authenticate(new LoginRequest()
+           
+            var user = new LoginRequest()
             {
                 UserName = registerRequest.UserName,
-                Password = registerRequest.Password,
-            });
-
-            var userPrincipal = this.ValidateToken(token);
-            var authProperties = new AuthenticationProperties
-            {
-                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
-                IsPersistent = false
+                Password = registerRequest.Password
             };
-            //HttpContext.Session.SetString(SystemConstants.AppSettings.Token, loginResult.ResultObj);
-            await HttpContext.SignInAsync(
-                        CookieAuthenticationDefaults.AuthenticationScheme,
-                        userPrincipal,
-                        authProperties);
-
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "User", user);
         }
+       
         private ClaimsPrincipal ValidateToken(string jwtToken)
         {
             IdentityModelEventSource.ShowPII = true;
@@ -135,10 +116,13 @@ namespace NashShop_CustomerSite.Controllers
             validationParameters.ValidAudience = _configuration["Jwt:Issuer"];
             validationParameters.ValidIssuer = _configuration["Jwt:Issuer"];
             validationParameters.IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-
+            
+           
             ClaimsPrincipal principal = new JwtSecurityTokenHandler().ValidateToken(jwtToken, validationParameters, out validatedToken);
+            var idenity = new ClaimsIdentity(principal.Identity);
+            idenity.AddClaim(new Claim("Token", jwtToken));
 
-            return principal;
+            return new ClaimsPrincipal(idenity);
         }
     }
 }

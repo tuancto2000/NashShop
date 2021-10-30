@@ -10,5 +10,6 @@ namespace NashShop_ViewModel.Categories
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Image { get; set; }
     }
 }

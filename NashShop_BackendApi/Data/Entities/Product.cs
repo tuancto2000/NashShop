@@ -15,7 +15,7 @@ namespace NashShop_BackendApi.Data.Entities
         public int CategotyId { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
-        public bool? IsFeatured { get; set; }
+        public double Star { get; set; }
         public Category Category { get; set; }
         public List<OrderDetail> OrderDetails { get; set; }
         public List<CartDetail> CartDetails { get; set; }

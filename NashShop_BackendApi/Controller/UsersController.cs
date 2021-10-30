@@ -13,7 +13,7 @@ namespace NashShop_BackendApi.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -46,10 +46,7 @@ namespace NashShop_BackendApi.Controller
                 return BadRequest(ModelState);
             }
             var result = await _userService.Register(request);
-            if (!result)
-            {
-                return BadRequest("Register failed");
-            }
+          
             return Ok(result);
         }
         [HttpPost("paging")]
@@ -59,6 +56,5 @@ namespace NashShop_BackendApi.Controller
             return Ok(users);
 
         }
-
     }
 }

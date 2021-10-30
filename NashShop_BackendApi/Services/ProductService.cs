@@ -4,6 +4,7 @@ using NashShop_BackendApi.Data.EF;
 using NashShop_BackendApi.Data.Entities;
 using NashShop_BackendApi.Interfaces;
 using NashShop_ViewModel;
+using NashShop_ViewModel.Categories;
 using NashShop_ViewModel.ProductImages;
 using NashShop_ViewModel.Products;
 using NashShop_ViewModel.Shared;
@@ -47,7 +48,8 @@ namespace NashShop_BackendApi.Services
             }
             _context.ProductImages.Add(productImage);
             
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return productImage.Id;
         }
 
         public async Task AddViewcount(int productId)
@@ -67,7 +69,6 @@ namespace NashShop_BackendApi.Services
                 Name = request.Name,
                 Price = request.Price,
                 Description = request.Description,
-                IsFeatured = request.IsFeatured,
                 DateCreated = DateTime.Now,
                 DateUpdated = DateTime.Now,
                 CategotyId = request.CategoryId,
@@ -113,19 +114,28 @@ namespace NashShop_BackendApi.Services
             var product = await _context.Products.FindAsync(productId);
             if (product == null)
                 throw new Exception($"Cannot find an product with id {productId}");
-            var image = await _context.ProductImages.Where(x => x.ProductId == productId && x.IsDefault == true).FirstOrDefaultAsync();
+
+            var images = _context.ProductImages.Where(x => x.ProductId == productId);
+
+            var mainImage = await images.Where( x=> x.IsDefault == true).FirstOrDefaultAsync();
+
             var category = await _context.Categories.FindAsync(product.CategotyId);
+
+            var ratingCount = _context.Ratings.Where(x => x.ProductId == productId).Count();
+
             var productViewModel = new ProductVM()
             {
                 Id = product.Id,
                 Name = product.Name,
                 Price = product.Price,
                 Description = product.Description,
-                Category = category.Name,
-                ViewCount = product.ViewCount,
-                ImagePath = image != null ? image.ImagePath : "no-image.jpg",
+                ImagePath = mainImage != null ? mainImage.ImagePath : "no-image.jpg",
                 DateCreated = product.DateCreated,
-                DateUpdated = product.DateUpdated
+                DateUpdated = product.DateUpdated,
+                Star = product.Star,
+                ProductCategory = new CategoryVM() { Id = category.Id, Name = category.Name },
+                RatingCount = ratingCount,
+                Images = images.Select(x => new ProductImageVM() { Id = x.Id, ImagePath = x.ImagePath }).ToList()
             };
             return productViewModel;
 
@@ -150,7 +160,6 @@ namespace NashShop_BackendApi.Services
 
             product.Name = request.Name;
             product.Description = request.Description;
-            product.IsFeatured = request.IsFeatured;
             product.DateUpdated = DateTime.Now;
 
             if (request.Image != null)
@@ -210,8 +219,7 @@ namespace NashShop_BackendApi.Services
                     Name = x.p.Name,
                     Price = x.p.Price,
                     Description = x.p.Description,
-                    Category = x.c.Name,
-                    ViewCount = x.p.ViewCount,
+                    ProductCategory = new CategoryVM() { Id = x.c.Id, Name = x.c.Name },
                     ImagePath = x.pi.ImagePath 
 
                 }).ToListAsync();
@@ -251,17 +259,17 @@ namespace NashShop_BackendApi.Services
                         join pi in _context.ProductImages on p.Id equals pi.ProductId
                         where pi.IsDefault == true
                         select new { p, c, pi };
-            var data = await query.OrderByDescending(x => x.p.DateCreated).Take(take)
+            var data = await query.OrderByDescending(x => x.p.Star).Take(take)
                  .Select(x => new ProductVM()
                  {
                      Id = x.p.Id,
                      Name = x.p.Name,
-                     Category = x.c.Name,
                      DateCreated = x.p.DateCreated,
                      Description = x.p.Description,
                      Price = x.p.Price,
-                     ViewCount = x.p.ViewCount,
-                     ImagePath = x.pi.ImagePath
+                     ImagePath = x.pi.ImagePath,
+                     Star = x.p.Star,
+                     ProductCategory = new CategoryVM() { Id = x.c.Id, Name = x.c.Name }
 
 
                  }).ToListAsync();
@@ -269,21 +277,99 @@ namespace NashShop_BackendApi.Services
         }
 
 
-        public async Task<ProductImageViewModel> GetImageById(int imageId)
+        public async Task<ProductImageVM> GetImageById(int imageId)
         {
             var image = await _context.ProductImages.FindAsync(imageId);
             if (image == null)
                 throw new Exception($"Cannot find an image with id {imageId}");
-
-            var viewModel = new ProductImageViewModel()
+            var viewModel = new ProductImageVM()
             {
                 Caption = image.Caption,
                 Id = image.Id,
                 ImagePath = image.ImagePath,
-                IsDefault = image.IsDefault,
                 ProductId = image.ProductId
             };
             return viewModel;
+        }
+
+        public async Task<bool> AddRating(ProductRatingRequest request)
+        {
+            var rating = new Rating()
+            {
+                UserId=request.UserId,
+                Stars = request.Stars,
+                ProductId = request.ProductId,
+                DateCreated = DateTime.Now
+
+            };
+            _context.Ratings.Add(rating);
+            await _context.SaveChangesAsync();
+            // update star
+            var product = await _context.Products.FindAsync(request.ProductId);
+            if (product == null)
+                throw new Exception($"Cannot find an product with id {request.ProductId}");
+            var avg = _context.Ratings
+            .Where(r => r.ProductId == request.ProductId)
+            .Average(r => r.Stars);
+            if (Double.IsNaN(avg))
+            {
+                return await _context.SaveChangesAsync() > 0;
+            }
+            else
+            {
+                product.Star = avg;
+                _context.Products.Update(product);
+            }
+            return await _context.SaveChangesAsync() > 0;
+            
+        }
+
+        public async Task<List<ProductImageVM>> GetProductImages(int productId)
+        {
+            var data = await _context.ProductImages.Where(x=>x.ProductId == productId)
+                 .Select(x => new ProductImageVM()
+                 {
+                     Id = x.Id,
+                     ProductId = x.ProductId,
+                     ImagePath = x.ImagePath
+                 }).ToListAsync();
+            return data;
+        }
+
+        public async Task<PagedResult<ProductVM>> GetByCategoryId(PagingRequest request, int categoryId)
+        {
+            //1. join product and category
+            var query = from p in _context.Products
+                        join c in _context.Categories on p.CategotyId equals c.Id
+                        join pi in _context.ProductImages on p.Id equals pi.ProductId into pic
+                        from pi in pic.DefaultIfEmpty()
+                        where pi.IsDefault == true
+                        select new { p, c, pi };
+            //2. filter
+            query = query.Where(x => x.p.CategotyId == categoryId);
+            //3.Paging
+            int totalRow = await query.CountAsync();
+            var data = await query.Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize)
+                .Select(x => new ProductVM()
+                {
+                    Id = x.p.Id,
+                    Name = x.p.Name,
+                    Price = x.p.Price,
+                    Description = x.p.Description,
+                    ProductCategory = new CategoryVM() { Id = x.c.Id, Name = x.c.Name },
+
+                    ImagePath = x.pi.ImagePath
+
+                }).ToListAsync();
+
+            var pagedResult = new PagedResult<ProductVM>()
+            {
+                TotalRecords = totalRow,
+                PageSize = request.PageSize,
+                PageIndex = request.PageIndex,
+                Items = data
+            };
+            return pagedResult;
         }
     }
 

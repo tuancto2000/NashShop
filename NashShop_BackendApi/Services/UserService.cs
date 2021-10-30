@@ -43,16 +43,18 @@ namespace NashShop_BackendApi.Services
             {
                 new Claim(ClaimTypes.GivenName,user.FirstName),
                 new Claim(ClaimTypes.GivenName,user.LastName),
-                new Claim(ClaimTypes.Name, request.UserName)
+                new Claim(ClaimTypes.Name, request.UserName),
+                new Claim("UserId",user.Id.ToString())
             };
+
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
 
             var token = new JwtSecurityToken(
                 _configuration["Jwt:Issuer"],
                 _configuration["Jwt:Issuer"],
                 claims,
-                expires: DateTime.Now.AddHours(1),
-                signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256));
+                expires: DateTime.Now.AddMinutes(45),
+                signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)); ;
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
