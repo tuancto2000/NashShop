@@ -15,7 +15,7 @@ namespace NashShop_BackendApi.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
-   // [Authorize]
+    [Authorize]
     public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
@@ -40,7 +40,6 @@ namespace NashShop_BackendApi.Controller
         }
         [HttpGet("featured/{take}")]
         [AllowAnonymous]
-
         public async Task<IActionResult> GetFeaturedProducts(int take)
         {
             var products = await _productService.GetFeaturedProducts(take);

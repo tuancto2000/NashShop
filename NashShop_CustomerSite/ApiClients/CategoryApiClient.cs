@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace NashShop_CustomerSite.ApiClients
 {
-    public class CategoryApiClient : BaseApiClient,ICategoryApiClient
+    public class CategoryApiClient : BaseApiClient, ICategoryApiClient
     {
         public CategoryApiClient(IHttpClientFactory httpClientFactory,
            IHttpContextAccessor httpContextAccessor, IConfiguration configuration) :

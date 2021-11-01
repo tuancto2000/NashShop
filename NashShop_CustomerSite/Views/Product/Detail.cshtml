@@ -13,7 +13,14 @@
 <section class="product-details spad">
 
     <div class="container">
-        <ul class="featured__item__pic__hover" style="text-align:match-parent">
+        @section Scripts{
+            <script>
+                setTimeout(function () {
+                    $('#msgAlert').fadeOut('slow');
+                }, 5000);
+            </script>
+        }
+        <ul class="featured__item__pic__hover" ">
             @for (int i = 0; i < 5; i++)
             {
                 <li>
@@ -23,6 +30,13 @@
                 </li>
             }
         </ul>
+        <div class="row">
+            @if (ViewBag.Msg != null)
+            {
+                <div id="msgAlert" class="alert alert-success" role="alert">
+                    @ViewBag.Msg
+                </div>}
+        </div>
         <div class="row">
             <div class="col-lg-6 col-md-6">
                 <div class="product__details__pic">

@@ -25,6 +25,10 @@ namespace NashShop_CustomerSite.Controllers
         {
             
             var product = await _productApiClient.GetById(id);
+            if (TempData["ErrorMessage"] != null)
+            {
+                ViewBag.Msg = TempData["ErrorMessage"];
+            }
             return View(product);
         }
         public async Task<IActionResult> Category(int id,int page = 1)
@@ -53,7 +57,7 @@ namespace NashShop_CustomerSite.Controllers
             var id = User.FindFirst("UserId")?.Value;
             if(id == null)
             {
-                //TempData["ErrorMessage"] = "You must login to rate product";
+                TempData["ErrorMessage"] = "You must login to rate product";
                 return RedirectToAction("Detail", "Product", new { id = productId });
             }
             var rating = new ProductRatingRequest()

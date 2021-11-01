@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿<pages maintainScrollPositionOnPostBack="true" />
+<!DOCTYPE html>
 <html lang="zxx">
 
 <head>
@@ -8,7 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>NashShop </title>
-
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 
@@ -29,7 +29,7 @@
     </div>
     <!-- Hero Section Begin -->
     <!-- Header Section Begin -->
-    <header class="header">
+    <header class="header ">
         <div class="header__top">
             <div class="container">
                 <div class="row">
@@ -42,7 +42,7 @@
 
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6">
+                    <div class="col-lg-6 col-md-6 ">
                         <div class="header__top__right">
                             <div class="header__top__right__social">
                                 <a href="https://www.facebook.com/xuantuanhcmus.2000/"><i class="fa fa-facebook"></i></a>
@@ -68,7 +68,7 @@
                 </div>
             </div>
         </div>
-        <div class="container">
+        <div class="container sticky-top">
             <div class="row">
                 <div class="col-lg-3">
                     <div class="header__logo">
@@ -83,24 +83,22 @@
                             <li>
                                 <a href="#">Pages</a>
                                 <ul class="header__menu__dropdown">
-                                    <li><a href="./shop-details.html">Shop Details</a></li>
-                                    <li><a href="./shoping-cart.html">Shoping Cart</a></li>
-                                    <li><a href="./checkout.html">Check Out</a></li>
-                                    <li><a href="./blog-details.html">Blog Details</a></li>
+                                    <li><a href="#">Shop Details</a></li>
+                                    <li><a href="#">Shoping Cart</a></li>
+                                    <li><a href="#">Check Out</a></li>
+                                    <li><a href="#">Blog Details</a></li>
                                 </ul>
                             </li>
-                            <li><a href="./blog.html">Blog</a></li>
-                            <li><a href="./contact.html">Contact</a></li>
+                            <li><a href="#"</a>Blogs</li>
+                            <li><a href="#">Contact</a></li>
                         </ul>
                     </nav>
                 </div>
                 <div class="col-lg-3">
                     <div class="header__cart">
                         <ul>
-                            <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                            <li><a href="/cart"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                            <li><a href="/cart"><i class="fa-10x fa fa-shopping-bag "></i></a></li>
                         </ul>
-                        <div class="header__cart__price">item: <span>$150.00</span></div>
                     </div>
                 </div>
             </div>
@@ -119,7 +117,7 @@
                             <i class="fa fa-bars"></i>
                             <span>All combo</span>
                         </div>
-                        <ul style="display:none">
+                        <ul >
                             <li><a href="#">Fresh Meat</a></li>
                             <li><a href="#">Vegetables</a></li>
                             <li><a href="#">Fruit & Nut Gifts</a></li>
@@ -238,7 +236,7 @@
     <script src="/js/owl.carousel.min.js"></script>
     <script src="/js/main.js"></script>
     <script src="/js/site.js"></script>
-    @RenderSection("scripts", required: false)
+    @RenderSection("Scripts", required: false)
 
 
 </body>

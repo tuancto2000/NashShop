@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NashShop_CustomerSite.Interfaces;
 using NashShop_CustomerSite.Models;
+using NashShop_ViewModel.Orders;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,19 +14,23 @@ namespace NashShop_CustomerSite.Controllers
     public class CartController : Controller
     {
         private readonly IProductApiClient _productApiClient;
+        private readonly ICartApiClient _cartApiClient;
         private readonly string _cartSession = "CartSession";
 
-        public CartController(IProductApiClient productApiClient)
+        public CartController(IProductApiClient productApiClient, ICartApiClient cartApiClient)
         {
             _productApiClient = productApiClient;
+            _cartApiClient = cartApiClient;
         }
 
         public IActionResult Index()
         {
-            var session = HttpContext.Session.GetString(_cartSession);
+            if (TempData["ErrorMessage"] != null)
+            {
+                ViewBag.Msg = TempData["ErrorMessage"];
+            }
             List<CartItemVM> currentCart = new List<CartItemVM>();
-            if (session != null)
-                currentCart = JsonConvert.DeserializeObject<List<CartItemVM>>(session);
+            currentCart = GetCart();
             var cartVM = new CartVM()
             {
                 Items = currentCart,
@@ -37,11 +42,8 @@ namespace NashShop_CustomerSite.Controllers
         {
             var product = await _productApiClient.GetById(id);
 
-            var session = HttpContext.Session.GetString(_cartSession);
             List<CartItemVM> currentCart = new List<CartItemVM>();
-            if (session != null)
-                currentCart = JsonConvert.DeserializeObject<List<CartItemVM>>(session);
-            int quantity = 1;
+            currentCart = GetCart();
             if (currentCart.Any(x => x.ProductId == id))
             {
                 currentCart.First(x => x.ProductId == id).Quantity += 1;
@@ -54,7 +56,7 @@ namespace NashShop_CustomerSite.Controllers
                     Image = product.ImagePath,
                     Name = product.Name,
                     Price = product.Price,
-                    Quantity = quantity
+                    Quantity = 1
                 };
 
                 currentCart.Add(cartItem);
@@ -65,47 +67,80 @@ namespace NashShop_CustomerSite.Controllers
         }
         public IActionResult RemoveItem(int id)
         {
-            var session = HttpContext.Session.GetString(_cartSession);
             List<CartItemVM> currentCart = new List<CartItemVM>();
-            if (session != null)
-                currentCart = JsonConvert.DeserializeObject<List<CartItemVM>>(session);
+            currentCart = GetCart();
             var item = currentCart.FirstOrDefault(x => x.ProductId == id);
-            if (item!=null)
+            if (item != null)
             {
                 currentCart.Remove(item);
             }
             HttpContext.Session.SetString(_cartSession, JsonConvert.SerializeObject(currentCart));
             return RedirectToAction("Index", "Cart");
         }
-        public async Task<IActionResult> Checkout(int id)
+        [HttpGet]
+        public IActionResult Checkout()
         {
-            var product = await _productApiClient.GetById(id);
-
+            var id = User.FindFirst("UserId")?.Value;
+            if (id == null)
+            {
+                TempData["ErrorMessage"] = "You must login to checkout";
+                return RedirectToAction("Index", "Cart");
+            }
+            List<CartItemVM> currentCart = new List<CartItemVM>();
+            currentCart = GetCart();
+            var cartVM = new CartVM()
+            {
+                Items = currentCart,
+                Total = Math.Round(currentCart.Sum(x => x.Price * x.Quantity), 2)
+            };
+            var checkoutVm = new CheckoutVM()
+            {
+                Cart = cartVM,
+                CheckoutModel = new CheckoutRequest()
+            };
+            return View(checkoutVm);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Checkout(CheckoutVM model)
+        {
+            var id = User.FindFirst("UserId")?.Value;
+            if (id == null)
+            {
+                TempData["ErrorMessage"] = "You must login to checkout";
+                return RedirectToAction("Index", "Cart");
+            }
+            List<CartItemVM> currentCart = new List<CartItemVM>();
+            currentCart = GetCart();
+            var orderDetails = new List<OrderDetailVm>();
+            foreach (var item in currentCart)
+            {
+                orderDetails.Add(new OrderDetailVm()
+                {
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity,
+                    SubTotal = Math.Round(item.Price*item.Quantity,2)
+                });
+            }
+            var checkoutRequest = new CheckoutRequest()
+            {
+                UserId = new Guid(id),
+                Address = model.CheckoutModel.Address,
+                FullName = model.CheckoutModel.FullName,
+                Email = model.CheckoutModel.Email,
+                PhoneNumber = model.CheckoutModel.PhoneNumber,
+                OrderDetails = orderDetails
+            };
+            await _cartApiClient.Checkout(checkoutRequest);
+            return RedirectToAction("index", "home");
+        }
+        private List<CartItemVM> GetCart()
+        {
             var session = HttpContext.Session.GetString(_cartSession);
             List<CartItemVM> currentCart = new List<CartItemVM>();
             if (session != null)
                 currentCart = JsonConvert.DeserializeObject<List<CartItemVM>>(session);
-            int quantity = 1;
-            if (currentCart.Any(x => x.ProductId == id))
-            {
-                currentCart.First(x => x.ProductId == id).Quantity += 1;
-            }
-            else
-            {
-                var cartItem = new CartItemVM()
-                {
-                    ProductId = id,
-                    Image = product.ImagePath,
-                    Name = product.Name,
-                    Price = product.Price,
-                    Quantity = quantity
-                };
-
-                currentCart.Add(cartItem);
-            }
-
-            HttpContext.Session.SetString(_cartSession, JsonConvert.SerializeObject(currentCart));
-            return View();
+            return currentCart;
         }
+
     }
 }

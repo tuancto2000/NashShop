@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NashShop_BackendApi.Data.EF;
 
 namespace NashShop_BackendApi.Migrations
 {
     [DbContext(typeof(NashShopDbContext))]
-    partial class NashShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211101162523_edit_order")]
+    partial class edit_order
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
