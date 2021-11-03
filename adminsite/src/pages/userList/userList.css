@@ -15,17 +15,22 @@
   margin-right: 10px;
 }
 
-.userListEdit{
-    border: none;
-    border-radius: 10px;
-    padding: 5px 10px;
-    background-color: #3bb077;
-    color: white;
-    cursor: pointer;
-    margin-right: 20px;
+.userListEdit {
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  background-color: #3bb077;
+  color: white;
+  cursor: pointer;
+  margin-right: 20px;
 }
 
-.userListDelete{
-    color: red;
-    cursor: pointer;
+.userListDelete {
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  background-color: #c92031;
+  color: white;
+  cursor: pointer;
+  margin-right: 20px;
 }
