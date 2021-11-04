@@ -33,8 +33,10 @@ namespace NashShop_BackendApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddCors(options =>
+            options.AddDefaultPolicy(builder => builder.WithOrigins("http://localhost:3000")));
             services.AddDbContext<NashShopDbContext>(
-        options => options.UseSqlServer(configuration.GetConnectionString("NashShopDb")));
+            options => options.UseSqlServer(configuration.GetConnectionString("NashShopDb")));
             services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<NashShopDbContext>()
                 .AddDefaultTokenProviders();
@@ -69,7 +71,7 @@ namespace NashShop_BackendApi
                         new List<string>()
                       }
                     });
-                
+
             });
             string issuer = configuration.GetValue<string>("Jwt:Issuer");
             string signingKey = configuration.GetValue<string>("Jwt:Key");
@@ -126,7 +128,7 @@ namespace NashShop_BackendApi
 
             app.UseAuthentication();
             app.UseRouting();
-
+            app.UseCors();
             app.UseAuthorization();
 
             app.UseSwagger();

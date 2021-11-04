@@ -4,10 +4,24 @@ import { DeleteOutline } from "@material-ui/icons";
 import { productRows } from "../../dummyData";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
 
 export default function ProductList() {
   const [data, setData] = useState(productRows);
-
+  console.log(productRows);
+  axios({
+    method: "GET",
+    url: "https://localhost:5000/api/products/featured/5",
+    data: null,
+    mode: "no-cors",
+  })
+    .then((res) => {
+      console.log(res);
+      console.log(this.url);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
   };
