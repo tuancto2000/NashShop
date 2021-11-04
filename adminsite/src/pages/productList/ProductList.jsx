@@ -8,7 +8,9 @@ import axios from "axios";
 
 export default function ProductList() {
   const [data, setData] = useState(productRows);
+  const [data1, setData1] = useState();
   console.log(productRows);
+  let isMounted = true;
   axios({
     method: "GET",
     url: "https://localhost:5000/api/products/featured/5",
@@ -16,8 +18,7 @@ export default function ProductList() {
     mode: "no-cors",
   })
     .then((res) => {
-      console.log(res);
-      console.log(this.url);
+      if (isMounted) setData1(data1);
     })
     .catch((error) => {
       console.log(error);
@@ -25,7 +26,6 @@ export default function ProductList() {
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
   };
-
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
     {
