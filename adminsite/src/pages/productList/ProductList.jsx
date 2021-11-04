@@ -3,29 +3,29 @@ import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
 import { productRows } from "../../dummyData";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
+import { GetProducts } from "../../services/productService";
 import axios from "axios";
-
 export default function ProductList() {
   const [data, setData] = useState(productRows);
-  const [data1, setData1] = useState();
-  console.log(productRows);
-  let isMounted = true;
-  axios({
-    method: "GET",
-    url: "https://localhost:5000/api/products/featured/5",
-    data: null,
-    mode: "no-cors",
-  })
-    .then((res) => {
-      if (isMounted) setData1(data1);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  const [data1, setData1] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("https://localhost:5000/api/products/featured/5")
+      .then((response) => setData1([...response.data])
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
   };
+
+  useEffect(() => {
+    console.log(data1);
+  }, [data1]);
+
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
     {
@@ -71,14 +71,13 @@ export default function ProductList() {
       },
     },
   ];
-
   return (
     <div className="productList">
       <DataGrid
-        rows={data}
+        rows={data1}
         disableSelectionOnClick
         columns={columns}
-        pageSize={8}
+        // pageSize={8}
         checkboxSelection
       />
     </div>
