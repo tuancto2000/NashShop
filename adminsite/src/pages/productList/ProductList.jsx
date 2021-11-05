@@ -56,20 +56,31 @@ export default function ProductList() {
       field: "action",
       headerName: "Action",
       width: 150,
-      renderCell: (params) => {
+      renderCell: (param) => {
         return (
           <>
-            <Link to={"/product/" + params.row.id}>
-              <button className="productListEdit">Edit</button>
+            <Link
+              to={{
+                pathname: "/product/" + param.row.id,
+                id: param.row.id,
+                product: {
+                  name: param.row.name,
+                  description: param.row.description,
+                  price: param.row.price,
+                  categoryId: param.row.productCategory.id,
+                  categoryName: param.row.productCategory.name,
+                  image: api_url + param.row.imagePath,
+                },
+              }}
+            >
+              <button className="productListEdit">Edit </button>
             </Link>
-            <Link to={"/product/" + params.row.id}>
-              <button
-                className="productListDelete"
-                onClick={() => handleDelete(params.row.id)}
-              >
-                Delete
-              </button>
-            </Link>
+            <button
+              className="productListDelete"
+              onClick={() => handleDelete(param.row.id)}
+            >
+              Delete
+            </button>
           </>
         );
       },

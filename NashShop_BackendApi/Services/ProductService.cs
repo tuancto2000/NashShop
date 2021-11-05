@@ -159,6 +159,7 @@ namespace NashShop_BackendApi.Services
                 throw new Exception($"Cannot find an product with id {request.Id}");
 
             product.Name = request.Name;
+            product.Price = request.Price;
             product.Description = request.Description;
             product.DateUpdated = DateTime.Now;
 
@@ -370,6 +371,30 @@ namespace NashShop_BackendApi.Services
                 Items = data
             };
             return pagedResult;
+        }
+
+        public async Task<List<ProductVM>> GetAll()
+        {
+            var query = from p in _context.Products
+                        join c in _context.Categories on p.CategotyId equals c.Id
+                        join pi in _context.ProductImages on p.Id equals pi.ProductId
+                        where pi.IsDefault == true
+                        select new { p, c, pi };
+            var data = await query
+                 .Select(x => new ProductVM()
+                 {
+                     Id = x.p.Id,
+                     Name = x.p.Name,
+                     DateCreated = x.p.DateCreated,
+                     Description = x.p.Description,
+                     Price = x.p.Price,
+                     ImagePath = x.pi.ImagePath,
+                     Star = x.p.Star,
+                     ProductCategory = new CategoryVM() { Id = x.c.Id, Name = x.c.Name }
+
+
+                 }).ToListAsync();
+            return data;
         }
     }
 

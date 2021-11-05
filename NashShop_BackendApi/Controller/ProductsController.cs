@@ -24,6 +24,13 @@ namespace NashShop_BackendApi.Controller
         {
             _productService = productService;
         }
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllProducts()
+        {
+            var users = await _productService.GetAll();
+            return Ok(users);
+
+        }
         [HttpGet("paging")]
         [AllowAnonymous]
         public async Task<IActionResult> GetAllPaging([FromQuery] PagingRequest request)
@@ -91,15 +98,6 @@ namespace NashShop_BackendApi.Controller
                 return BadRequest();
             return Ok(result);
 
-        }
-        [HttpPatch("{productId}/{newPrice}")]
-        public async Task<IActionResult> UpdatePrice(int productId, double newPrice)
-        {
-            var isSuccessful = await _productService.UpdatePrice(productId, newPrice);
-            if (isSuccessful > 0)
-                return Ok();
-
-            return BadRequest();
         }
 
         //Images

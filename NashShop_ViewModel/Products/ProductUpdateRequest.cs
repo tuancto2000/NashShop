@@ -15,6 +15,7 @@ namespace NashShop_ViewModel.Products
         public string Name { set; get; }
         [Required]
         public string Description { set; get; }
+        public double Price { get; set; }
         public IFormFile Image { get; set; }
     }
 }

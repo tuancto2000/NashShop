@@ -17,8 +17,8 @@ namespace NashShop_BackendApi.Interfaces
         Task<int> Create(ProductCreateRequest request);
         Task<int> Update(ProductUpdateRequest request);
         Task<int> Delete(int productId);
+        Task<List<ProductVM>> GetAll();
         Task<ProductVM> GetById(int productId);
-        Task<int> UpdatePrice(int productId, double newPrice);
         Task AddViewcount(int productId);
         Task<int> AddImage(int productId, ProductImageCreateRequest image);
 
