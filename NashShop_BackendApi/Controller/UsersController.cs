@@ -56,5 +56,12 @@ namespace NashShop_BackendApi.Controller
             return Ok(users);
 
         }
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllUser()
+        {
+            var users = await _userService.GetAllUser();
+            return Ok(users);
+
+        }
     }
 }

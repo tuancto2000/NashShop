@@ -23,12 +23,6 @@ function App() {
           <Route path="/users">
             <UserList />
           </Route>
-          <Route path="/user/:userId">
-            <User />
-          </Route>
-          <Route path="/newUser">
-            <NewUser />
-          </Route>
           <Route path="/products">
             <ProductList />
           </Route>

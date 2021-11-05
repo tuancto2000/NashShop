@@ -10,14 +10,15 @@
 }
 
 .productAddButton {
-  width: 80px;
+  width: 100px;
   border: none;
-  padding: 5px;
+  padding: 8px;
   background-color: teal;
   color: white;
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
+  margin: 5px 0;
 }
 
 .productTop {
@@ -96,11 +97,11 @@
   border-bottom: 1px solid gray;
 }
 
-.productFormLeft >select{
+.productFormLeft > select {
   margin-bottom: 10px;
 }
 
-.productUploadImg{
+.productUploadImg {
   width: 100px;
   height: 100px;
   border-radius: 10px;
@@ -108,23 +109,23 @@
   margin-right: 20px;
 }
 
-.productFormRight{
+.productFormRight {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
 }
 
-.productUpload{
+.productUpload {
   display: flex;
   align-items: center;
 }
 
-.productButton{
+.productButton {
   border: none;
   padding: 5px;
   border-radius: 5px;
   background-color: darkblue;
-  color:white;
+  color: white;
   font-weight: 600;
   cursor: pointer;
 }

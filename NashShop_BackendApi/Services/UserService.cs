@@ -58,6 +58,18 @@ namespace NashShop_BackendApi.Services
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
+        public async Task<List<UserVM>> GetAllUser()
+        {
+            var users = await _userManager.Users.Select(x => new UserVM()
+            {
+                UserName = x.UserName,
+                FirstName = x.FirstName,
+                Id = x.Id,
+                LastName = x.LastName
+            }).ToListAsync();
+            return users;
+        }
+
         public async Task<PagedResult<UserVM>> GetUsersPaging(PagingRequest request)
         {
             var query = _userManager.Users;

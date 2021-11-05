@@ -13,5 +13,6 @@ namespace NashShop_BackendApi.Interfaces
         Task<string> Authenticate(LoginRequest request);
         Task<bool> Register(RegisterRequest request);
         Task<PagedResult<UserVM>> GetUsersPaging(PagingRequest request);
+        Task<List<UserVM>> GetAllUser();
     }
 }
