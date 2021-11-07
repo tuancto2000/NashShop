@@ -15,10 +15,10 @@ export default function Sidebar() {
           <h3 className="sidebarTitle">Management</h3>
 
           <ul className="sidebarList">
-            <Link to="/users" className="link">
+            <Link to="/" className="link">
               <li className="sidebarListItem">
                 <AccountBalance className="sidebarIcon" />
-                My Account
+                Home
               </li>
             </Link>
             <Link to="/users" className="link">

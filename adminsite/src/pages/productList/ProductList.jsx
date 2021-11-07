@@ -42,17 +42,17 @@ export default function ProductList() {
         );
       },
     },
-    { field: "star", headerName: "Star", width: 150 },
+    { field: "star", headerName: "Star", width: 120 },
     {
       field: "category",
       headerName: "Category",
-      width: 150,
+      width: 130,
       valueGetter: (param) => param.row.productCategory.name,
     },
     {
       field: "price",
       headerName: "Price",
-      width: 160,
+      width: 120,
     },
     {
       field: "dateCreated",
@@ -67,7 +67,7 @@ export default function ProductList() {
     {
       field: "action",
       headerName: "Action",
-      width: 150,
+      width: 250,
       renderCell: (param) => {
         return (
           <>
@@ -86,6 +86,14 @@ export default function ProductList() {
               }}
             >
               <button className="productListEdit">Edit </button>
+            </Link>
+            <Link
+              to={{
+                pathname: "/product/" + param.row.id + "/images/",
+                id: param.row.id,
+              }}
+            >
+              <button className="productListEdit">Manage Image </button>
             </Link>
             <button
               className="productListDelete"

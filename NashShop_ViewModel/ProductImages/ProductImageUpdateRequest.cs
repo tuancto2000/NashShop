@@ -9,12 +9,9 @@ namespace NashShop_ViewModel.ProductImages
 {
     public class ProductImageUpdateRequest
     {
-        public int Id { get; set; }
 
         public string Caption { get; set; }
 
-        public bool IsDefault { get; set; }
-
-        public IFormFile ImageFile { get; set; }
+        public IFormFile Image { get; set; }
     }
 }

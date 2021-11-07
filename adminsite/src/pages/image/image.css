@@ -1,0 +1,139 @@
+.image {
+  flex: 4;
+  padding: 20px;
+  width: 100%;
+}
+
+.imageTitleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.imageAddButton {
+  width: 100px;
+  border: none;
+  padding: 8px;
+  background-color: teal;
+  color: white;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 5px 0;
+}
+
+.imageTop {
+  display: flex;
+  width: 500;
+}
+
+.imageTopLeft,
+.imageTopRight {
+  flex: 1;
+}
+
+.imageTopRight {
+  padding: 20px;
+  margin: 20px;
+  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+}
+
+.imageInfoImg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.imageInfoTop {
+  display: flex;
+  align-items: center;
+}
+
+.imageName {
+  font-weight: 600;
+}
+
+.imageInfoBottom {
+  margin-top: 10px;
+}
+
+.imageInfoItem {
+  width: 150px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.imageInfoValue {
+  font-weight: 300;
+}
+
+.imageBottom {
+  padding: 20px;
+  margin: 20px;
+  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+}
+
+.imageForm {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+input {
+  font-size: 15px;
+  width: 80%;
+}
+
+.imageFormLeft {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.imageFormLeft > label {
+  margin-bottom: 10px;
+  color: gray;
+}
+
+.imageFormLeft > input {
+  margin-bottom: 10px;
+  border: none;
+  padding: 5px;
+  border-bottom: 1px solid gray;
+}
+
+.imageUploadImg {
+  width: 250px;
+  height: 250px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.imageFormRight {
+  display: flex;
+  flex-direction: column;
+}
+
+.imageUpload {
+  display: flex;
+  align-items: left;
+}
+.loadImage {
+  display: flex;
+  flex-direction: column;
+  border-radius: 3%;
+}
+.imageButton {
+  border: none;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: darkblue;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  width: 30%;
+}

@@ -106,7 +106,8 @@ namespace NashShop_BackendApi.Controller
 
         //Images
         [HttpPost("{productId}/images")]
-        public async Task<IActionResult> CreateImage(int productId, [FromBody] ProductImageCreateRequest request)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> CreateImage([FromRoute] int productId, [FromForm] ProductImageCreateRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -122,7 +123,8 @@ namespace NashShop_BackendApi.Controller
         }
 
         [HttpPut("{productId}/images/{imageId}")]
-        public async Task<IActionResult> UpdateImage(int imageId, [FromBody] ProductImageUpdateRequest request)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> UpdateImage([FromRoute] int imageId, [FromForm] ProductImageUpdateRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -149,6 +151,7 @@ namespace NashShop_BackendApi.Controller
             return Ok();
         }
         [HttpGet("{productId}/images/{imageId}")]
+         [Consumes("multipart/form-data")]
         public async Task<IActionResult> GetImageById( int imageId)
         {
             var image = await _productService.GetImageById(imageId);

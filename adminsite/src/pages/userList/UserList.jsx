@@ -12,9 +12,6 @@ export default function UserList() {
   useEffect(() => {
     console.log(data);
   }, [data]);
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
-  };
 
   const columns = [
     { field: "id", headerName: "ID", width: 250 },

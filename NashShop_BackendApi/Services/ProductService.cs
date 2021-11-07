@@ -39,12 +39,10 @@ namespace NashShop_BackendApi.Services
                 Caption = request.Caption,
                 ProductId = productId,
                 DateCreated = DateTime.Now,
-                IsDefault = request.IsDefault,
-
             };
-            if (request.ImageFile != null)
+            if (request.Image!= null)
             {
-                productImage.ImagePath = await this.SaveFile(request.ImageFile);
+                productImage.ImagePath = await this.SaveFile(request.Image);
             }
             _context.ProductImages.Add(productImage);
 
@@ -115,7 +113,7 @@ namespace NashShop_BackendApi.Services
             if (product == null)
                 throw new Exception($"Cannot find an product with id {productId}");
 
-            var images = _context.ProductImages.Where(x => x.ProductId == productId);
+            var images = _context.ProductImages.Where(x => x.ProductId == productId && x.IsDefault != true);
 
             var mainImage = await images.Where(x => x.IsDefault == true).FirstOrDefaultAsync();
 
@@ -135,8 +133,13 @@ namespace NashShop_BackendApi.Services
                 Star = product.Star,
                 ProductCategory = new CategoryVM() { Id = category.Id, Name = category.Name },
                 RatingCount = ratingCount,
-                Images = images.Select(x => new ProductImageVM() { 
-                    Id = x.Id, ImagePath = x.ImagePath, Caption = x.Caption ,DateCreated=x.DateCreated}).ToList()
+                Images = images.Select(x => new ProductImageVM()
+                {
+                    Id = x.Id,
+                    ImagePath = x.ImagePath,
+                    Caption = x.Caption,
+                    DateCreated = x.DateCreated
+                }).ToList()
             };
             return productViewModel;
 
@@ -242,12 +245,11 @@ namespace NashShop_BackendApi.Services
             var productImage = await _context.ProductImages.FindAsync(imageId);
             if (productImage == null)
                 throw new Exception($"Cannot find an image with id {imageId}");
-
-            if (request.ImageFile != null)
+            productImage.Caption = request.Caption;
+            if (request.Image != null)
             {
-                productImage.Caption = request.Caption;
-                productImage.ImagePath = await this.SaveFile(request.ImageFile);
-                productImage.IsDefault = request.IsDefault;
+
+                productImage.ImagePath = await this.SaveFile(request.Image);
 
             }
             _context.ProductImages.Update(productImage);
