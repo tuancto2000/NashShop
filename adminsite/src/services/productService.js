@@ -1,5 +1,4 @@
 import axios from "axios";
-import { api_url } from "../config";
 // export async function getProductPaging() {
 //   return await axios({
 //     method: "GET",
@@ -12,7 +11,7 @@ import { api_url } from "../config";
 export async function GetProducts() {
   return await axios({
     method: "get",
-    url: api_url + "/api/products/all",
+    url: "/api/products/all",
   })
     .then((response) => response.data)
     .catch((error) => {
@@ -23,7 +22,7 @@ export async function GetProducts() {
 export async function GetById(id) {
   return axios({
     method: "get",
-    url: api_url + "/api/products/" + id,
+    url: "/api/products/" + id,
   })
     .then((response) => {
       return response.data;
@@ -36,7 +35,7 @@ export async function GetById(id) {
 export async function PostProduct(formData) {
   return axios({
     method: "post",
-    url: api_url + "/api/products/",
+    url: "/api/products/",
     data: formData,
   })
     .then((response) => {
@@ -50,7 +49,7 @@ export async function PostProduct(formData) {
 export async function PutProduct(id, formData) {
   return axios({
     method: "put",
-    url: api_url + "/api/products/" + id,
+    url: "/api/products/" + id,
     data: formData,
     headers: { "Content-Type": "multipart/form-data" },
   })
@@ -65,7 +64,7 @@ export async function PutProduct(id, formData) {
 export const DeleteProduct = (id) => {
   return axios({
     method: "delete",
-    url: api_url + "/api/products/" + id,
+    url: "/api/products/" + id,
   })
     .then((response) => {
       return response.data;

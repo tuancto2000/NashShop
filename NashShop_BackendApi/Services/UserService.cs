@@ -22,29 +22,31 @@ namespace NashShop_BackendApi.Services
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IConfiguration _configuration;
-        public UserService(UserManager<User> userManager, SignInManager<User> signInManager, 
-            RoleManager<Role> roleManager,IConfiguration configuration)
+        public UserService(UserManager<User> userManager, SignInManager<User> signInManager,
+            RoleManager<Role> roleManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration = configuration;
         }
-        public async Task<string> Authenticate(LoginRequest request)
+
+        public async Task<AuthenticateResult> Authenticate(LoginRequest request)
         {
             var user = await _userManager.FindByNameAsync(request.UserName);
             if (user == null)
                 throw new Exception($"Cannot find username {request.UserName}");
-            var result = await _signInManager.PasswordSignInAsync(user, request.Password,true,true);
+            var result = await _signInManager.PasswordSignInAsync(user, request.Password, true, true);
             if (!result.Succeeded)
             {
                 throw new Exception("Password is incorrect ");
             }
+
             var claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.GivenName,user.FirstName),
                 new Claim(ClaimTypes.GivenName,user.LastName),
                 new Claim(ClaimTypes.Name, request.UserName),
-                new Claim("UserId",user.Id.ToString())
+                new Claim("UserId",user.Id.ToString()),
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
@@ -54,8 +56,12 @@ namespace NashShop_BackendApi.Services
                 _configuration["Jwt:Issuer"],
                 claims,
                 expires: DateTime.Now.AddMinutes(45),
-                signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)); ;
-            return new JwtSecurityTokenHandler().WriteToken(token);
+                signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256));
+            return new AuthenticateResult
+            {
+                Token = new JwtSecurityTokenHandler().WriteToken(token),
+                IsAdmin = user.IsAdmin
+            };
         }
 
         public async Task<List<UserVM>> GetAllUser()
@@ -111,7 +117,7 @@ namespace NashShop_BackendApi.Services
 
             };
             var result = await _userManager.CreateAsync(user, request.Password);
-            if(result.Succeeded)
+            if (result.Succeeded)
             {
                 return true;
             }

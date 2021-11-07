@@ -12,6 +12,7 @@ namespace NashShop_BackendApi.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CategoriesController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
@@ -21,12 +22,14 @@ namespace NashShop_BackendApi.Controller
             _categoryService = categoryService;
         }
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAllCategories()
         {
             var categories = await _categoryService.GetAll();
             return Ok(categories);
         }
         [HttpGet("{categoryId}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetById(int categoryId)
         {
             var categories = await _categoryService.GetById(categoryId);

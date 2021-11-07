@@ -1,8 +1,16 @@
 import React from "react";
 import "./topbar.css";
-import { NotificationsNone, Language, Settings } from "@material-ui/icons";
-
+import { useHistory } from "react-router-dom";
+import { ExitToApp } from "@material-ui/icons";
 export default function Topbar() {
+  let history = useHistory();
+  const handleLogoutClick = () => {
+    console.log("clickme");
+    localStorage.clear();
+    history.push("/home");
+    history.go(0);
+  };
+
   return (
     <div className="topbar">
       <div className="topbarWrapper">
@@ -10,22 +18,11 @@ export default function Topbar() {
           <span className="logo">NashShop</span>
         </div>
         <div className="topRight">
-          <div className="topbarIconContainer">
-            <NotificationsNone />
-            <span className="topIconBadge">2</span>
-          </div>
-          <div className="topbarIconContainer">
-            <Language />
-            <span className="topIconBadge">2</span>
-          </div>
-          <div className="topbarIconContainer">
-            <Settings />
-          </div>
-          <img
-            src="https://images.pexels.com/photos/1526814/pexels-photo-1526814.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-            alt=""
-            className="topAvatar"
-          />
+          {localStorage.getItem("token") && (
+            <button className="buttonLogout" onClick={handleLogoutClick}>
+              <ExitToApp></ExitToApp>
+            </button>
+          )}
         </div>
       </div>
     </div>

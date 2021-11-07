@@ -23,17 +23,8 @@
   background-color: #3bb077;
   color: white;
   cursor: pointer;
-  margin-right: 20px;
-}
-.imageAddButton {
-  width: 80px;
-  border: none;
-  padding: 5px;
-  background-color: teal;
-  color: white;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
+  margin: 0 20px;
+  width: 50px;
 }
 
 .imageListDelete {
@@ -43,5 +34,6 @@
   background-color: #c92031;
   color: white;
   cursor: pointer;
-  margin-right: 20px;
+  margin: 0;
+  width: 100px;
 }

@@ -16,8 +16,8 @@ namespace NashShop_BackendApi.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
-   // [AllowCrossSiteJson]
-    
+    [Authorize]
+
     public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
@@ -42,9 +42,9 @@ namespace NashShop_BackendApi.Controller
         }
         [HttpGet("paging/{categoryId}")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetByCategoryId(int categoryId,[FromQuery] PagingRequest request)
+        public async Task<IActionResult> GetByCategoryId(int categoryId, [FromQuery] PagingRequest request)
         {
-            var products = await _productService.GetByCategoryId(request,categoryId);
+            var products = await _productService.GetByCategoryId(request, categoryId);
             return Ok(products);
         }
         [HttpGet("featured/{take}")]
@@ -70,8 +70,7 @@ namespace NashShop_BackendApi.Controller
         }
         [HttpGet("{productId}")]
         [AllowAnonymous]
-
-        public async Task<IActionResult> GetById( int productId)
+        public async Task<IActionResult> GetById(int productId)
         {
             var result = await _productService.GetById(productId);
             if (result == null)
@@ -81,7 +80,7 @@ namespace NashShop_BackendApi.Controller
         }
         [HttpPut("{productId}")]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> Update([FromRoute] int productId,[FromForm] ProductUpdateRequest request)
+        public async Task<IActionResult> Update([FromRoute] int productId, [FromForm] ProductUpdateRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -95,7 +94,7 @@ namespace NashShop_BackendApi.Controller
 
         }
         [HttpDelete("{productId}")]
-        public async Task<IActionResult> Delete( int productId)
+        public async Task<IActionResult> Delete(int productId)
         {
             var result = await _productService.Delete(productId);
             if (result == 0)
@@ -151,8 +150,8 @@ namespace NashShop_BackendApi.Controller
             return Ok();
         }
         [HttpGet("{productId}/images/{imageId}")]
-         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> GetImageById( int imageId)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> GetImageById(int imageId)
         {
             var image = await _productService.GetImageById(imageId);
             if (image == null)
@@ -162,7 +161,7 @@ namespace NashShop_BackendApi.Controller
         [HttpPost("rating")]
         public async Task<IActionResult> CreateRating([FromBody] ProductRatingRequest request)
         {
-            
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

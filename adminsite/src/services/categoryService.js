@@ -1,10 +1,9 @@
 import axios from "axios";
-import { api_url } from "../config";
 
 export async function GetCategories() {
   return await axios({
     method: "get",
-    url: api_url + "/api/categories/",
+    url: "/api/categories/",
   })
     .then((response) => response.data)
     .catch((error) => {
@@ -15,7 +14,7 @@ export async function GetCategories() {
 export async function PostCategory(formData) {
   return axios({
     method: "post",
-    url: api_url + "/api/categories/",
+    url: "/api/categories/",
     data: formData,
   })
     .then((response) => {
@@ -29,7 +28,7 @@ export async function PostCategory(formData) {
 export async function PutCategory(id, formData) {
   return axios({
     method: "put",
-    url: api_url + "/api/categories/" + id,
+    url: "/api/categories/" + id,
     data: formData,
   })
     .then((response) => {
@@ -43,7 +42,7 @@ export async function PutCategory(id, formData) {
 export const DeleteCategory = (id) => {
   return axios({
     method: "delete",
-    url: api_url + "/api/categories/" + id,
+    url: "/api/categories/" + id,
   })
     .then((response) => {
       return response.data;

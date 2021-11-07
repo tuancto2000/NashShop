@@ -15,7 +15,10 @@
   object-fit: cover;
   margin-right: 10px;
 }
-
+Link {
+  margin: 0;
+  padding: 0;
+}
 .productListEdit {
   border: none;
   border-radius: 10px;
@@ -24,6 +27,7 @@
   color: white;
   cursor: pointer;
   margin-right: 20px;
+  width: 50px;
 }
 .productAddButton {
   width: 80px;
@@ -40,8 +44,19 @@
   border: none;
   border-radius: 10px;
   padding: 5px 10px;
-  background-color: #c92031;
+  background-color: #b03b4b;
+  color: white;
+  cursor: pointer;
+  margin: 0;
+  width: 100px;
+}
+.imageListManage {
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  background-color: #3bb077;
   color: white;
   cursor: pointer;
   margin-right: 20px;
+  width: 100px;
 }

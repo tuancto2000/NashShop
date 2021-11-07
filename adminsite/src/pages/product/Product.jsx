@@ -70,11 +70,13 @@ export default function Product() {
             <input {...register("price", { required: true })} />
             <label> Category</label>
             <select {...register("categoryId", { required: true })}>
-              <option value="">Select...</option>
+              <option value={product.categoryId}>{product.categoryName}</option>
               {category &&
-                category.map((category) => (
-                  <option value={category.id}>{category.name}</option>
-                ))}
+                category
+                  .filter((c) => c.id !== product.categoryId)
+                  .map((category) => (
+                    <option value={category.id}>{category.name}</option>
+                  ))}
             </select>
             <label> Description</label>
             <input {...register("description", { required: true })} />

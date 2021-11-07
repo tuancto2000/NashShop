@@ -10,7 +10,8 @@ namespace NashShop_BackendApi.Interfaces
 {
     public interface IUserService
     {
-        Task<string> Authenticate(LoginRequest request);
+
+        Task<AuthenticateResult> Authenticate(LoginRequest request);
         Task<bool> Register(RegisterRequest request);
         Task<PagedResult<UserVM>> GetUsersPaging(PagingRequest request);
         Task<List<UserVM>> GetAllUser();

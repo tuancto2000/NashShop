@@ -24,6 +24,7 @@
   color: white;
   cursor: pointer;
   margin-right: 20px;
+  width: 50px;
 }
 .categoryAddButton {
   width: 80px;
@@ -34,6 +35,7 @@
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
+  width: 70px;
 }
 
 .categoryListDelete {
@@ -43,5 +45,6 @@
   background-color: #c92031;
   color: white;
   cursor: pointer;
-  margin-right: 20px;
+  margin: 0;
+  width: 100px;
 }

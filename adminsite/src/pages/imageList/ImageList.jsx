@@ -2,15 +2,15 @@ import "./imageList.css";
 import { Link } from "react-router-dom";
 import { DataGrid } from "@material-ui/data-grid";
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import { GetById } from "../../services/productService";
 import { DeleteImage } from "../../services/imageService";
 import { api_url } from "../../config";
+import { useParams } from "react-router-dom";
 export default function ImageList() {
   const [data, setData] = useState([]);
   const [productName, setProductName] = useState([]);
-  const location = useLocation();
-  const productId = location.id;
+  const { productId } = useParams();
+  console.log(productId);
   useEffect(() => {
     GetById(productId)
       .then((response) => {
@@ -18,14 +18,16 @@ export default function ImageList() {
         setData([...response.images]);
       })
       .catch((error) => console.log(error));
-  }, []);
+  }, [productId]);
   const handleDelete = (id) => {
     DeleteImage(productId, id)
-      .then((response) => setData([...response]))
+      .then((response) => {
+        GetById(productId).then((response) => {
+          setData([...response.images]);
+        });
+      })
       .catch((error) => console.log(error));
-    setData(data.filter((item) => item.id !== id));
   };
-
   useEffect(() => {
     console.log(data);
   }, [data]);
@@ -62,7 +64,7 @@ export default function ImageList() {
     {
       field: "action",
       headerName: "Action",
-      width: 150,
+      width: 200,
       renderCell: (param) => {
         return (
           <>

@@ -10,6 +10,8 @@ import CategoryList from "./pages/categoryList/CategoryList";
 import Category from "./pages/category/Category";
 import ImageList from "./pages/imageList/ImageList";
 import Image from "./pages/image/Image";
+import Login from "./components/login/Login";
+import { PrivateRoute } from "./route";
 function App() {
   return (
     <Router>
@@ -17,30 +19,36 @@ function App() {
       <div className="container">
         <Sidebar />
         <Switch>
-          <Route exact path="/">
+          <Route exact path="/login">
+            <Login />
+          </Route>
+          <PrivateRoute exact path="/">
             <Home />
-          </Route>
-          <Route path="/users">
+          </PrivateRoute>
+          <PrivateRoute exact path="/home">
+            <Home />
+          </PrivateRoute>
+          <PrivateRoute exact path="/users">
             <UserList />
-          </Route>
-          <Route path="/products">
+          </PrivateRoute>
+          <PrivateRoute exact path="/products">
             <ProductList />
-          </Route>
-          <Route path="/categories">
+          </PrivateRoute>
+          <PrivateRoute exact path="/categories">
             <CategoryList />
-          </Route>
-          <Route path="/product/:productId/images">
+          </PrivateRoute>
+          <PrivateRoute exact path="/product/:productId/images">
             <ImageList />
-          </Route>
-          <Route exact path="/product/:productId">
+          </PrivateRoute>
+          <PrivateRoute exact path="/product/:productId">
             <Product />
-          </Route>
-          <Route path="/category/:categoryId">
+          </PrivateRoute>
+          <PrivateRoute exact path="/category/:categoryId">
             <Category />
-          </Route>
-          <Route exact path="/product/:productId/image/:imageId">
+          </PrivateRoute>
+          <PrivateRoute exact path="/product/:productId/image/:imageId">
             <Image />
-          </Route>
+          </PrivateRoute>
         </Switch>
       </div>
     </Router>

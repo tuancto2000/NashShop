@@ -6,7 +6,6 @@ import { GetProducts, DeleteProduct } from "../../services/productService";
 import { api_url } from "../../config";
 export default function ProductList() {
   const [data, setData] = useState([]);
-
   useEffect(() => {
     GetProducts()
       .then((response) => setData([...response]))
@@ -67,7 +66,7 @@ export default function ProductList() {
     {
       field: "action",
       headerName: "Action",
-      width: 250,
+      width: 271,
       renderCell: (param) => {
         return (
           <>
@@ -90,11 +89,11 @@ export default function ProductList() {
             <Link
               to={{
                 pathname: "/product/" + param.row.id + "/images/",
-                id: param.row.id,
               }}
             >
-              <button className="productListEdit">Manage Image </button>
+              <button className="imageListManage">Manage Image </button>
             </Link>
+
             <button
               className="productListDelete"
               onClick={() => handleDelete(param.row.id)}

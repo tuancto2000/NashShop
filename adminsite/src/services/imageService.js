@@ -4,7 +4,7 @@ import { api_url } from "../config";
 export async function GetById(productId, id) {
   return axios({
     method: "get",
-    url: api_url + "/api/products/" + productId + "/images/" + id,
+    url: "/api/products/" + productId + "/images/" + id,
   })
     .then((response) => {
       return response.data;
@@ -17,7 +17,7 @@ export async function GetById(productId, id) {
 export async function PostImage(productId, formData) {
   return axios({
     method: "post",
-    url: api_url + "/api/products/" + productId + "/images/",
+    url: "/api/products/" + productId + "/images/",
     data: formData,
   })
     .then((response) => {
@@ -31,7 +31,7 @@ export async function PostImage(productId, formData) {
 export async function PutImage(productId, id, formData) {
   return axios({
     method: "put",
-    url: api_url + "/api/products/" + productId + "/images/" + id,
+    url: "/api/products/" + productId + "/images/" + id,
     data: formData,
     headers: { "Content-Type": "multipart/form-data" },
   })
@@ -46,7 +46,7 @@ export async function PutImage(productId, id, formData) {
 export const DeleteImage = (productId, id) => {
   return axios({
     method: "delete",
-    url: api_url + "/api/products/" + productId + "/images/" + id,
+    url: "/api/products/" + productId + "/images/" + id,
   })
     .then((response) => {
       return response.data;

@@ -13,7 +13,7 @@ namespace NashShop_BackendApi.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -30,12 +30,30 @@ namespace NashShop_BackendApi.Controller
                 return BadRequest(ModelState);
             }
             var result = await _userService.Authenticate(request);
-            if (string.IsNullOrEmpty(result))
+            if (string.IsNullOrEmpty(result.Token))
             {
                 return BadRequest("Username or password is incorrect");
             }
 
-            return Ok(result);
+            return Ok(result.Token);
+        }
+        [HttpPost("admin/login")]
+        [AllowAnonymous]
+        public async Task<IActionResult> AdminAuthenticate([FromBody] LoginRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = await _userService.Authenticate(request);
+
+            if (string.IsNullOrEmpty(result.Token))
+            {
+                return BadRequest("Username or password is incorrect");
+            }
+            if(!result.IsAdmin)
+                return BadRequest("You must be admin");
+            return Ok(result.Token);
         }
         [HttpPost("register")]
         [AllowAnonymous]
@@ -54,7 +72,6 @@ namespace NashShop_BackendApi.Controller
         {
             var users = await _userService.GetUsersPaging(request);
             return Ok(users);
-
         }
         [HttpGet("all")]
         public async Task<IActionResult> GetAllUser()
