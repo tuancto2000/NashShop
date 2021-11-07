@@ -54,15 +54,14 @@ namespace NashShop_CustomerSite.Controllers
             {
                 return View();
             }
-            var id = User.FindFirst("UserId")?.Value;
-            if(id == null)
+            var isAuth = User.Identity.IsAuthenticated;
+            if (!isAuth)
             {
                 TempData["ErrorMessage"] = "You must login to rate product";
                 return RedirectToAction("Detail", "Product", new { id = productId });
             }
             var rating = new ProductRatingRequest()
             {
-                UserId = new Guid(id),
                 ProductId = productId,
                 Stars = star
             };

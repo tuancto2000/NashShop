@@ -23,5 +23,6 @@ namespace NashShop_ViewModel.Users
         [Display(Name = "Ngày sinh")]
         public DateTime Dob { get; set; }
 
+
     }
 }

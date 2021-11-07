@@ -10,8 +10,10 @@ import { api_url } from "../config";
 // }
 
 export async function GetProducts() {
-  return await axios
-    .get("https://localhost:5000/api/products/all")
+  return await axios({
+    method: "get",
+    url: api_url + "/api/products/all",
+  })
     .then((response) => response.data)
     .catch((error) => {
       console.log(error.response);
@@ -50,6 +52,7 @@ export async function PutProduct(id, formData) {
     method: "put",
     url: api_url + "/api/products/" + id,
     data: formData,
+    headers: { "Content-Type": "multipart/form-data" },
   })
     .then((response) => {
       return response.data;

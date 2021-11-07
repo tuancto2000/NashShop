@@ -14,6 +14,7 @@ namespace NashShop_ViewModel.Products
         [Required(ErrorMessage = "Bạn phải nhập tên sản phẩm")]
         public string Name { set; get; }
         public string Description { set; get; }
+        [Required]
         public IFormFile Image { get; set; }
         public int CategoryId { get; set; }
     }

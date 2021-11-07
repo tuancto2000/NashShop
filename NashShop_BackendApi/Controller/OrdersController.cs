@@ -30,6 +30,8 @@ namespace NashShop_BackendApi.Controller
             {
                 return BadRequest(ModelState);
             }
+            var id = User.FindFirst("UserId")?.Value;
+            request.UserId = new Guid(id);
             var order = await _orderService.Checkout(request);
             if (!order)
                 return BadRequest();

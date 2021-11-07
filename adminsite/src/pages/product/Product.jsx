@@ -1,16 +1,59 @@
 import { Link } from "react-router-dom";
 import "./product.css";
-import { Publish } from "@material-ui/icons";
 import { useForm } from "react-hook-form";
 import { useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { PostProduct, PutProduct } from "../../services/productService";
+import { GetCategories } from "../../services/categoryService";
 
 export default function Product() {
-  const { register, handleSubmit, errors } = useForm();
-  const onHandleSubmit = (data) => {
-    console.log(data);
-  };
   const location = useLocation();
   const product = location.product;
+  const id = location.id;
+
+  const [category, setCategory] = useState([]);
+  useEffect(() => {
+    GetCategories()
+      .then((response) => setCategory([...response]))
+      .catch((error) => console.log(error));
+  }, []);
+  useEffect(() => {
+    console.log(category);
+  }, [category]);
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      id: id,
+      name: product.name,
+      price: product.price,
+      category: product.categoryName,
+      description: product.description,
+      categoryId: product.categoryId,
+    },
+  });
+  const fileInput = React.createRef();
+  const onHandleSubmit = (data) => {
+    const fd = new FormData();
+    for (var key in data) {
+      fd.append(key, data[key]); // formdata doesn't take objects
+    }
+    if (fileInput.current.files[0]) {
+      fd.append(
+        "image",
+        fileInput.current.files[0],
+        fileInput.current.files[0].name
+      );
+    }
+    if (!fd.get("id")) {
+      PostProduct(fd)
+        .then((response) => console.log(response))
+        .catch((error) => console.log(error));
+    } else {
+      PutProduct(fd.get("id"), fd)
+        .then((response) => console.log(response))
+        .catch((error) => console.log(error));
+    }
+    console.log(fd);
+  };
   return (
     <div className="product">
       <div className="productBottom">
@@ -21,29 +64,24 @@ export default function Product() {
         >
           <div className="productFormLeft">
             <label> Id</label>
-            <input value={product.id} {...register("id", { required: true })} />
+            <input {...register("id", { required: false })} />
             <label> Name</label>
-            <input
-              value={product.name}
-              {...register("name", { required: true })}
-            />
+            <input {...register("name", { required: true })} />
             <label> Price</label>
-            <input
-              value={product.price}
-              {...register("price", { required: true })}
-            />
+            <input {...register("price", { required: true })} />
             <label> Category</label>
-            <input
-              value={product.categoryName}
-              readOnly
-              {...register("category", { required: true })}
-            />
+            <select {...register("categoryId", { required: true })}>
+              <option value="">Select...</option>
+              {category &&
+                category.map((category) => (
+                  <option value={category.id}>{category.name}</option>
+                ))}
+            </select>
             <label> Description</label>
-            <input
-              value={product.description}
-              {...register("description", { required: true })}
-            />
-            <input type="submit" name="Update" />
+            <input {...register("description", { required: true })} />
+            <button className="productButton" type="submit" name="Update">
+              Update or Create
+            </button>
           </div>
           <div className="productFormRight">
             <div className="productUpload">
@@ -52,16 +90,9 @@ export default function Product() {
                 alt=""
                 className="productUploadImg"
               />
-              <label for="file">
-                <Publish />
-              </label>
-              <input
-                type="file"
-                id="file"
-                style={{ display: "none" }}
-                {...register("image", { required: true })}
-              />
             </div>
+            <label>Select a Photo</label>
+            <input type="file" id="avatar" ref={fileInput} />
           </div>
         </form>
       </div>

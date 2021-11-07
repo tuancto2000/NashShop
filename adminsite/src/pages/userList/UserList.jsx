@@ -17,20 +17,25 @@ export default function UserList() {
   };
 
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
+    { field: "id", headerName: "ID", width: 250 },
     {
       field: "firstName",
       headerName: "FirstName",
-      width: 200,
+      width: 150,
     },
     {
       field: "lastName",
       headerName: "LastName",
-      width: 200,
+      width: 150,
     },
     {
       field: "userName",
       headerName: "UserName",
+      width: 150,
+    },
+    {
+      field: "dob",
+      headerName: "Date of birth",
       width: 200,
     },
   ];

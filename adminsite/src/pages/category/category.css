@@ -1,16 +1,16 @@
-.product {
+.category {
   flex: 4;
   padding: 20px;
   width: 100%;
 }
 
-.productTitleContainer {
+.categoryTitleContainer {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.productAddButton {
+.categoryAddButton {
   width: 100px;
   border: none;
   padding: 8px;
@@ -22,24 +22,24 @@
   margin: 5px 0;
 }
 
-.productTop {
+.categoryTop {
   display: flex;
   width: 500;
 }
 
-.productTopLeft,
-.productTopRight {
+.categoryTopLeft,
+.categoryTopRight {
   flex: 1;
 }
 
-.productTopRight {
+.categoryTopRight {
   padding: 20px;
   margin: 20px;
   -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
 }
 
-.productInfoImg {
+.categoryInfoImg {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -47,37 +47,37 @@
   margin-right: 20px;
 }
 
-.productInfoTop {
+.categoryInfoTop {
   display: flex;
   align-items: center;
 }
 
-.productName {
+.categoryName {
   font-weight: 600;
 }
 
-.productInfoBottom {
+.categoryInfoBottom {
   margin-top: 10px;
 }
 
-.productInfoItem {
+.categoryInfoItem {
   width: 150px;
   display: flex;
   justify-content: space-between;
 }
 
-.productInfoValue {
+.categoryInfoValue {
   font-weight: 300;
 }
 
-.productBottom {
+.categoryBottom {
   padding: 20px;
   margin: 20px;
   -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
 }
 
-.productForm {
+.categoryForm {
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -86,51 +86,48 @@ input {
   font-size: 15px;
   width: 80%;
 }
-select {
-  height: 30px;
-  width: 80%;
-}
 
-.productFormLeft {
+.categoryFormLeft {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
 
-.productFormLeft > label {
+.categoryFormLeft > label {
   margin-bottom: 10px;
   color: gray;
 }
 
-.productFormLeft > input {
+.categoryFormLeft > input {
   margin-bottom: 10px;
   border: none;
   padding: 5px;
   border-bottom: 1px solid gray;
 }
 
-.productUploadImg {
-  width: 250px;
-  height: 250px;
+.categoryUploadImg {
+  width: 300px;
+  height: 300px;
   border-radius: 10px;
   object-fit: cover;
   margin-right: 20px;
 }
 
-.productFormRight {
+.categoryFormRight {
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
 }
 
-.productUpload {
+.categoryUpload {
   display: flex;
-  align-items: left;
+  align-items: center;
 }
 .loadImage {
   display: flex;
   flex-direction: column;
 }
-.productButton {
+.categoryButton {
   border: none;
   padding: 5px;
   border-radius: 5px;

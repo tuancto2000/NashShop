@@ -1,18 +1,18 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace NashShop_ViewModel.Categories
 {
-    public class CategoryVM
+    public class CategoryCreateRequest
     {
-        public int Id { get; set; }
         public string Name { get; set; }
-        public string Image { get; set; }
         public string Description { get; set; }
-        public DateTime DateCreated { get; set; }
-        public DateTime DateUpdated { get; set; }
+        [Required]
+        public IFormFile Image { get; set; }
     }
 }

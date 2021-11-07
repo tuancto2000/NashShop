@@ -33,7 +33,7 @@ export default function Sidebar() {
                 Products
               </li>
             </Link>
-            <Link to="/products" className="link">
+            <Link to="/categories" className="link">
               <li className="sidebarListItem">
                 <LineStyle className="sidebarIcon" />
                 Categories

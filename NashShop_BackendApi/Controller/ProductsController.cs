@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using NashShop_BackendApi.Interfaces;
 using NashShop_BackendApi.Services;
 using NashShop_ViewModel;
@@ -15,7 +16,8 @@ namespace NashShop_BackendApi.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+   // [AllowCrossSiteJson]
+    
     public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
@@ -53,7 +55,8 @@ namespace NashShop_BackendApi.Controller
             return Ok(products);
         }
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] ProductCreateRequest request)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> Create([FromForm] ProductCreateRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -64,7 +67,6 @@ namespace NashShop_BackendApi.Controller
                 return BadRequest();
             var product = await _productService.GetById(productId);
             return CreatedAtAction(nameof(GetById), new { id = productId }, product);
-
         }
         [HttpGet("{productId}")]
         [AllowAnonymous]
@@ -77,13 +79,15 @@ namespace NashShop_BackendApi.Controller
             return Ok(result);
 
         }
-        [HttpPut]
-        public async Task<IActionResult> Update([FromBody] ProductUpdateRequest request)
+        [HttpPut("{productId}")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> Update([FromRoute] int productId,[FromForm] ProductUpdateRequest request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            request.Id = productId;
             var result = await _productService.Update(request);
             if (result == 0)
                 return BadRequest();
@@ -155,10 +159,13 @@ namespace NashShop_BackendApi.Controller
         [HttpPost("rating")]
         public async Task<IActionResult> CreateRating([FromBody] ProductRatingRequest request)
         {
+            
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            var id = User.FindFirst("UserId")?.Value;
+            request.UserId = new Guid(id);
             var rating = await _productService.AddRating(request);
             if (!rating)
                 return BadRequest();

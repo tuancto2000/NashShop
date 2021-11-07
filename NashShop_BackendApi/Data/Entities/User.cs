@@ -13,8 +13,7 @@ namespace NashShop_BackendApi.Data.Entities
         public string LastName { get; set; }
 
         public DateTime Dob { get; set; }
-
-        public List<CartDetail> CartDetails { get; set; }
+        public bool IsAdmin { get; set; }
 
         public List<Order> Orders { get; set; }
         public List<Rating> Ratings { get; set; }

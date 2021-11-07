@@ -12,5 +12,8 @@ namespace NashShop_BackendApi.Data.Entities
         public string Description { get; set; }
         public List<Product> Products { get; set; }
         public string ImagePath { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime DateUpdated { get; set; }
+
     }
 }

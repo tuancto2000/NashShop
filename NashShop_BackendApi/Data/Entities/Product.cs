@@ -18,7 +18,6 @@ namespace NashShop_BackendApi.Data.Entities
         public double Star { get; set; }
         public Category Category { get; set; }
         public List<OrderDetail> OrderDetails { get; set; }
-        public List<CartDetail> CartDetails { get; set; }
         public List<Rating> Ratings { get; set; }
         public List<ProductImage> ProductImages { get; set; }
 

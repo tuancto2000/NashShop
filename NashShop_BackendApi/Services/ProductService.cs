@@ -47,7 +47,7 @@ namespace NashShop_BackendApi.Services
                 productImage.ImagePath = await this.SaveFile(request.ImageFile);
             }
             _context.ProductImages.Add(productImage);
-            
+
             await _context.SaveChangesAsync();
             return productImage.Id;
         }
@@ -88,7 +88,7 @@ namespace NashShop_BackendApi.Services
                     }
                 };
             }
-            _context.Products.Update(product);
+            _context.Products.Add(product);
             await _context.SaveChangesAsync();
             return product.Id;
         }
@@ -117,7 +117,7 @@ namespace NashShop_BackendApi.Services
 
             var images = _context.ProductImages.Where(x => x.ProductId == productId);
 
-            var mainImage = await images.Where( x=> x.IsDefault == true).FirstOrDefaultAsync();
+            var mainImage = await images.Where(x => x.IsDefault == true).FirstOrDefaultAsync();
 
             var category = await _context.Categories.FindAsync(product.CategotyId);
 
@@ -135,7 +135,8 @@ namespace NashShop_BackendApi.Services
                 Star = product.Star,
                 ProductCategory = new CategoryVM() { Id = category.Id, Name = category.Name },
                 RatingCount = ratingCount,
-                Images = images.Select(x => new ProductImageVM() { Id = x.Id, ImagePath = x.ImagePath }).ToList()
+                Images = images.Select(x => new ProductImageVM() { 
+                    Id = x.Id, ImagePath = x.ImagePath, Caption = x.Caption ,DateCreated=x.DateCreated}).ToList()
             };
             return productViewModel;
 
@@ -221,7 +222,7 @@ namespace NashShop_BackendApi.Services
                     Price = x.p.Price,
                     Description = x.p.Description,
                     ProductCategory = new CategoryVM() { Id = x.c.Id, Name = x.c.Name },
-                    ImagePath = x.pi.ImagePath 
+                    ImagePath = x.pi.ImagePath
 
                 }).ToListAsync();
 
@@ -297,7 +298,7 @@ namespace NashShop_BackendApi.Services
         {
             var rating = new Rating()
             {
-                UserId=request.UserId,
+                UserId = request.UserId,
                 Stars = request.Stars,
                 ProductId = request.ProductId,
                 DateCreated = DateTime.Now
@@ -318,16 +319,16 @@ namespace NashShop_BackendApi.Services
             }
             else
             {
-                product.Star = avg;
+                product.Star = Math.Round(avg, 2);
                 _context.Products.Update(product);
             }
             return await _context.SaveChangesAsync() > 0;
-            
+
         }
 
         public async Task<List<ProductImageVM>> GetProductImages(int productId)
         {
-            var data = await _context.ProductImages.Where(x=>x.ProductId == productId)
+            var data = await _context.ProductImages.Where(x => x.ProductId == productId)
                  .Select(x => new ProductImageVM()
                  {
                      Id = x.Id,
@@ -386,6 +387,7 @@ namespace NashShop_BackendApi.Services
                      Id = x.p.Id,
                      Name = x.p.Name,
                      DateCreated = x.p.DateCreated,
+                     DateUpdated = x.p.DateUpdated,
                      Description = x.p.Description,
                      Price = x.p.Price,
                      ImagePath = x.pi.ImagePath,

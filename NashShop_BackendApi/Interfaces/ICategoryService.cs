@@ -10,5 +10,9 @@ namespace NashShop_BackendApi.Interfaces
     {
         Task<List<CategoryVM>> GetAll();
         Task<CategoryVM> GetById(int id);
+        Task<bool> Update(CategoryUpdateRequest request);
+        Task<bool> Create(CategoryCreateRequest request);
+        Task<bool> Delete(int id);
+
     }
 }

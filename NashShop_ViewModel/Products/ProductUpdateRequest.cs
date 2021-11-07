@@ -17,5 +17,6 @@ namespace NashShop_ViewModel.Products
         public string Description { set; get; }
         public double Price { get; set; }
         public IFormFile Image { get; set; }
+        public int CategoryId { get; set; }
     }
 }

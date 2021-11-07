@@ -33,8 +33,9 @@ namespace NashShop_BackendApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddCors(options =>
-            options.AddDefaultPolicy(builder => builder.WithOrigins("http://localhost:3000")));
+            //services.AddCors(options =>
+            //options.AddDefaultPolicy(builder => builder.SetIsOriginAllowed(origin => true)  /*.WithOrigins("http://localhost:3000")*/
+            //.AllowAnyHeader().AllowCredentials().WithMethods("PUT", "DELETE", "GET", "POST", "OPTIONS")));
             services.AddDbContext<NashShopDbContext>(
             options => options.UseSqlServer(configuration.GetConnectionString("NashShopDb")));
             services.AddIdentity<User, Role>()
@@ -125,10 +126,13 @@ namespace NashShop_BackendApi
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseAuthentication();
             app.UseRouting();
-            app.UseCors();
+            app.UseCors(option => {
+                option.AllowAnyOrigin();
+                option.AllowAnyMethod();
+                option.AllowAnyHeader();
+            });
             app.UseAuthorization();
 
             app.UseSwagger();
@@ -137,7 +141,6 @@ namespace NashShop_BackendApi
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger NashShop V1");
             });
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

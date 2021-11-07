@@ -37,6 +37,7 @@ namespace NashShop_BackendApi.Services
             {
                 await Task.Run(() => File.Delete(filePath));
             }
+            return;
         }
     }
 }

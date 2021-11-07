@@ -80,8 +80,8 @@ namespace NashShop_CustomerSite.Controllers
         [HttpGet]
         public IActionResult Checkout()
         {
-            var id = User.FindFirst("UserId")?.Value;
-            if (id == null)
+            var isAuth = User.Identity.IsAuthenticated;
+            if (!isAuth)
             {
                 TempData["ErrorMessage"] = "You must login to checkout";
                 return RedirectToAction("Index", "Cart");
@@ -123,7 +123,6 @@ namespace NashShop_CustomerSite.Controllers
             }
             var checkoutRequest = new CheckoutRequest()
             {
-                UserId = new Guid(id),
                 Address = model.CheckoutModel.Address,
                 FullName = model.CheckoutModel.FullName,
                 Email = model.CheckoutModel.Email,
