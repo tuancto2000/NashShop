@@ -18,7 +18,7 @@ export default function Topbar() {
           <span className="logo">NashShop</span>
         </div>
         <div className="topRight">
-          {localStorage.getItem("token") && (
+          {localStorage.getItem("user") && (
             <button className="buttonLogout" onClick={handleLogoutClick}>
               <ExitToApp></ExitToApp>
             </button>
