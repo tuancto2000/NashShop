@@ -11,13 +11,15 @@ export default function Login() {
       .then((response) => {
         if (response) {
           let expiresOn = new Date();
-          expiresOn.setDate(expiresOn.getDate() + 1);
+          expiresOn.setDate(expiresOn.getHours() + 1);
           const temp = {
             token: response,
             expiresOn: expiresOn,
           };
+          console.log(temp);
           const stringUser = JSON.stringify(temp);
           localStorage.setItem("user", stringUser);
+
           history.push("/");
           history.go(0);
         }

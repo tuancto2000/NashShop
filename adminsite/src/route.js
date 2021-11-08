@@ -6,8 +6,9 @@ export const PrivateRoute = ({ component: Component, ...rest }) => {
   const user = JSON.parse(localStorage.getItem("user"));
   const token = user ? user["token"] : "";
   const expriresOn = user ? new Date(user["expiresOn"]) : "";
-  const isAuth = !token || expriresOn < new Date() ? true : false;
-  if (!token) {
+  const isAuth = token && expriresOn > new Date() ? true : false;
+
+  if (!isAuth) {
     localStorage.clear();
     return <Login />;
   } else {
