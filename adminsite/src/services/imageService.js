@@ -1,5 +1,4 @@
 import axios from "axios";
-import { api_url } from "../config";
 
 export async function GetById(productId, id) {
   return axios({
