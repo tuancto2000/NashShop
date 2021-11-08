@@ -9,13 +9,24 @@ export default function Login() {
   const onHandleSubmit = (data) => {
     Authenticate(data)
       .then((response) => {
-        if (response) localStorage.setItem("token", response);
+        if (response) {
+          let expiresOn = new Date();
+          expiresOn.setDate(expiresOn.getDate() + 1);
+          const temp = {
+            token: response,
+            expiresOn: expiresOn,
+          };
+          const stringUser = JSON.stringify(temp);
+          localStorage.setItem("user", stringUser);
+          history.push("/");
+          history.go(0);
+        }
       })
       .catch((error) => console.log(error));
-    if (localStorage.getItem("token")) {
+    if (localStorage.getItem("user")) {
       console.log("Login succeed");
       history.push("/home");
-      history.go(0);
+      //history.go(0);
     }
   };
   return (

@@ -8,6 +8,7 @@ export async function GetUsers() {
       return [];
     });
 }
+
 export async function Authenticate(request) {
   return axios({
     method: "post",
