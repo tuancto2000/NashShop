@@ -113,9 +113,9 @@ namespace NashShop_BackendApi.Services
             if (product == null)
                 throw new Exception($"Cannot find an product with id {productId}");
 
-            var images = _context.ProductImages.Where(x => x.ProductId == productId && x.IsDefault != true);
+            var images = await _context.ProductImages.Where(x => x.ProductId == productId ).ToListAsync();
 
-            var mainImage = await images.Where(x => x.IsDefault == true).FirstOrDefaultAsync();
+            var mainImage =  images.SingleOrDefault(x => x.IsDefault == true);
 
             var category = await _context.Categories.FindAsync(product.CategotyId);
 
