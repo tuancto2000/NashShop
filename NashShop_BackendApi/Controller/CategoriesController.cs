@@ -43,7 +43,7 @@ namespace NashShop_BackendApi.Controller
                 return BadRequest(ModelState);
             }
             var isSucceed = await _categoryService.Create(request);
-            if (!isSucceed)
+            if (isSucceed > 0)
                 return BadRequest();
             return Ok();
         }

@@ -24,7 +24,7 @@ namespace NashShop_BackendApi.Services
             _storageService = storageService;
         }
 
-        public async Task<bool> Create(CategoryCreateRequest request)
+        public async Task<int> Create(CategoryCreateRequest request)
         {
 
             var category = new Category()
@@ -37,15 +37,16 @@ namespace NashShop_BackendApi.Services
             {
                 category.ImagePath = await this.SaveFile(request.Image);
             }
-            _context.Categories.Update(category);
-            return await _context.SaveChangesAsync()>0;
+            _context.Categories.Add(category);
+             await _context.SaveChangesAsync();
+            return category.Id;
         }
 
         public async Task<bool> Delete(int id)
         {
             var category = await _context.Categories.FindAsync(id);
             if (category == null)
-                throw new Exception($"Cannot find an category with id {id}");
+                throw new Exception($"Cannot find a category with id {id}");
             await _storageService.DeleteFileAsync(category.ImagePath);
 
             _context.Categories.Remove(category);
@@ -71,10 +72,14 @@ namespace NashShop_BackendApi.Services
         public async Task<CategoryVM> GetById(int categoryId)
         {
             var category = await _context.Categories.FindAsync(categoryId);
+            if (category == null)
+                throw new Exception($"Cannot find a category with id {categoryId}");
             return new CategoryVM()
             {
                 Id = category.Id,
-                Name = category.Name
+                Name = category.Name,
+                Image = category.ImagePath,
+                Description = category.Description
             };
 
         }
@@ -84,7 +89,7 @@ namespace NashShop_BackendApi.Services
 
            var category = await _context.Categories.FindAsync(request.Id);
             if (category == null)
-                throw new Exception($"Cannot find an product with id {request.Id}");
+                throw new Exception($"Cannot find a category with id {request.Id}");
 
             category.Name = request.Name;
             category.Description = request.Description;

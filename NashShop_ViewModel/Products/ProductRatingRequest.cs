@@ -10,6 +10,6 @@ namespace NashShop_ViewModel.Products
     {
         public Guid UserId { get; set; }
         public int ProductId { get; set; }
-        public double Stars { get; set; }
+        public int Stars { get; set; }
     }
 }

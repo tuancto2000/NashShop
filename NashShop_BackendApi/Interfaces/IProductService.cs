@@ -21,7 +21,6 @@ namespace NashShop_BackendApi.Interfaces
         Task<ProductVM> GetById(int productId);
         Task AddViewcount(int productId);
         Task<int> AddImage(int productId, ProductImageCreateRequest image);
-
         Task<int> RemoveImage(int productId);
         Task<PagedResult<ProductVM>> GetAllPaging(PagingRequest request);
         Task<PagedResult<ProductVM>> GetByCategoryId(PagingRequest request,int categoryId);

@@ -32,7 +32,7 @@ namespace NashShop_BackendApi.Services
         {
             var product = await _context.Products.FindAsync(productId);
             if (product == null)
-                throw new Exception($"Cannot find an product with id {productId}");
+                throw new Exception($"Cannot find a product with id {productId}");
 
             var productImage = new ProductImage()
             {
@@ -40,7 +40,7 @@ namespace NashShop_BackendApi.Services
                 ProductId = productId,
                 DateCreated = DateTime.Now,
             };
-            if (request.Image!= null)
+            if (request.Image != null)
             {
                 productImage.ImagePath = await this.SaveFile(request.Image);
             }
@@ -54,7 +54,7 @@ namespace NashShop_BackendApi.Services
         {
             var product = await _context.Products.FindAsync(productId);
             if (product == null)
-                throw new Exception($"Cannot find an product with id {productId}");
+                throw new Exception($"Cannot find a product with id {productId}");
             product.ViewCount += 1;
             _context.Products.Update(product);
             await _context.SaveChangesAsync();
@@ -62,6 +62,8 @@ namespace NashShop_BackendApi.Services
 
         public async Task<int> Create(ProductCreateRequest request)
         {
+            var category = await _context.Categories.FindAsync(request.CategoryId);
+            if (category == null) throw new Exception($"Cannot find a category with id {request.CategoryId}");
             var product = new Product()
             {
                 Name = request.Name,
@@ -95,7 +97,7 @@ namespace NashShop_BackendApi.Services
         {
             var product = await _context.Products.FindAsync(productId);
             if (product == null)
-                throw new Exception($"Cannot find an product with id {productId}");
+                throw new Exception($"Cannot find a product with id {productId}");
             var images = _context.ProductImages.Where(i => i.ProductId == productId);
             foreach (var image in images)
             {
@@ -111,12 +113,11 @@ namespace NashShop_BackendApi.Services
         {
             var product = await _context.Products.FindAsync(productId);
             if (product == null)
-                throw new Exception($"Cannot find an product with id {productId}");
+                throw new Exception($"Cannot find a product with id {productId}");
 
-            var images = await _context.ProductImages.Where(x => x.ProductId == productId ).ToListAsync();
+            var images = await _context.ProductImages.Where(x => x.ProductId == productId).ToListAsync();
 
-            var mainImage =  images.SingleOrDefault(x => x.IsDefault == true);
-
+            var mainImage = images.SingleOrDefault(x => x.IsDefault == true);
             var category = await _context.Categories.FindAsync(product.CategotyId);
 
             var ratingCount = _context.Ratings.Where(x => x.ProductId == productId).Count();
@@ -149,7 +150,7 @@ namespace NashShop_BackendApi.Services
         {
             var image = await _context.ProductImages.FindAsync(imageId);
             if (image == null)
-                throw new Exception($"Cannot find an image with id {image}");
+                throw new Exception($"Cannot find a image with id {image}");
             await _storageService.DeleteFileAsync(image.ImagePath);
 
             _context.ProductImages.Remove(image);
@@ -160,7 +161,7 @@ namespace NashShop_BackendApi.Services
         {
             var product = await _context.Products.FindAsync(request.Id);
             if (product == null)
-                throw new Exception($"Cannot find an product with id {request.Id}");
+                throw new Exception($"Cannot find a product with id {request.Id}");
 
             product.Name = request.Name;
             product.Price = request.Price;
@@ -187,7 +188,7 @@ namespace NashShop_BackendApi.Services
         {
             var product = await _context.Products.FindAsync(productId);
             if (product == null)
-                throw new Exception($"Cannot find an product with id {productId}");
+                throw new Exception($"Cannot find a product with id {productId}");
             if (newPrice >= 0)
             {
                 product.Price = newPrice;
@@ -244,7 +245,7 @@ namespace NashShop_BackendApi.Services
         {
             var productImage = await _context.ProductImages.FindAsync(imageId);
             if (productImage == null)
-                throw new Exception($"Cannot find an image with id {imageId}");
+                throw new Exception($"Cannot find a image with id {imageId}");
             productImage.Caption = request.Caption;
             if (request.Image != null)
             {
@@ -285,7 +286,7 @@ namespace NashShop_BackendApi.Services
         {
             var image = await _context.ProductImages.FindAsync(imageId);
             if (image == null)
-                throw new Exception($"Cannot find an image with id {imageId}");
+                throw new Exception($"Cannot find a image with id {imageId}");
             var viewModel = new ProductImageVM()
             {
                 Caption = image.Caption,
@@ -298,6 +299,7 @@ namespace NashShop_BackendApi.Services
 
         public async Task<bool> AddRating(ProductRatingRequest request)
         {
+            if (request.Stars > 5 || request.Stars < 1) return false;
             var rating = new Rating()
             {
                 UserId = request.UserId,
@@ -311,21 +313,13 @@ namespace NashShop_BackendApi.Services
             // update star
             var product = await _context.Products.FindAsync(request.ProductId);
             if (product == null)
-                throw new Exception($"Cannot find an product with id {request.ProductId}");
+                throw new Exception($"Cannot find a product with id {request.ProductId}");
             var avg = _context.Ratings
             .Where(r => r.ProductId == request.ProductId)
             .Average(r => r.Stars);
-            if (Double.IsNaN(avg))
-            {
-                return await _context.SaveChangesAsync() > 0;
-            }
-            else
-            {
-                product.Star = Math.Round(avg, 2);
-                _context.Products.Update(product);
-            }
+            product.Star = Math.Round(avg, 2);
+            _context.Products.Update(product);
             return await _context.SaveChangesAsync() > 0;
-
         }
 
         public async Task<List<ProductImageVM>> GetProductImages(int productId)

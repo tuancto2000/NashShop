@@ -48,7 +48,7 @@ namespace NashShop_CustomerSite.Controllers
 
 
         }
-        public async Task<IActionResult> Rating(double star,int productId)
+        public async Task<IActionResult> Rating(int star,int productId)
         {
             if (!ModelState.IsValid)
             {

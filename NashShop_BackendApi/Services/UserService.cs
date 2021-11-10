@@ -23,7 +23,7 @@ namespace NashShop_BackendApi.Services
         private readonly SignInManager<User> _signInManager;
         private readonly IConfiguration _configuration;
         public UserService(UserManager<User> userManager, SignInManager<User> signInManager,
-            RoleManager<Role> roleManager, IConfiguration configuration)
+            IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
