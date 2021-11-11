@@ -36,7 +36,7 @@ namespace NashShop_CustomerSite.Controllers
             var paging = new PagingRequest()
             {
                 PageIndex = page,
-                PageSize = 2,
+                PageSize = 5,
             };
 
             var products = await _productApiClient.GetByCategoryId(paging,id );

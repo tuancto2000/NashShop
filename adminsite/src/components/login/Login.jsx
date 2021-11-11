@@ -11,7 +11,7 @@ export default function Login() {
       .then((response) => {
         if (response) {
           let expiresOn = new Date();
-          expiresOn.setDate(expiresOn.getHours() + 1);
+          expiresOn.setHours(expiresOn.getHours() + 1);
           const temp = {
             token: response,
             expiresOn: expiresOn,
@@ -19,17 +19,11 @@ export default function Login() {
           console.log(temp);
           const stringUser = JSON.stringify(temp);
           localStorage.setItem("user", stringUser);
-
-          history.push("/");
+          history.push("/home");
           history.go(0);
         }
       })
       .catch((error) => console.log(error));
-    if (localStorage.getItem("user")) {
-      console.log("Login succeed");
-      history.push("/home");
-      //history.go(0);
-    }
   };
   return (
     <div className="container" onclick="onclick">

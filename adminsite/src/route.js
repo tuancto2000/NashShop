@@ -6,7 +6,7 @@ export const PrivateRoute = ({ component: Component, ...rest }) => {
   const token = user ? user["token"] : "";
   const expriresOn = user ? new Date(user["expiresOn"]) : "";
   const isAuth = token && expriresOn > new Date() ? true : false;
-
+  console.log(expriresOn);
   if (!isAuth) {
     localStorage.clear();
     return <Login />;

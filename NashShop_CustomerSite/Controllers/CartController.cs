@@ -127,9 +127,11 @@ namespace NashShop_CustomerSite.Controllers
                 FullName = model.CheckoutModel.FullName,
                 Email = model.CheckoutModel.Email,
                 PhoneNumber = model.CheckoutModel.PhoneNumber,
-                OrderDetails = orderDetails
+                OrderDetails = orderDetails,
+                Note = model.CheckoutModel.Note
             };
             await _cartApiClient.Checkout(checkoutRequest);
+            HttpContext.Session.Remove(_cartSession);
             return RedirectToAction("index", "home");
         }
         private List<CartItemVM> GetCart()

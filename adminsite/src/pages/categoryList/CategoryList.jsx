@@ -44,7 +44,7 @@ export default function ProductList() {
     },
     {
       field: "dateCreated",
-      headerName: "dateCreated",
+      headerName: "DateCreated",
       width: 200,
     },
     {
@@ -85,9 +85,6 @@ export default function ProductList() {
   ];
   return (
     <div className="productList">
-      <Link to="/newproduct">
-        <button className="productAddButton">Create</button>
-      </Link>
       <DataGrid
         rows={data}
         disableSelectionOnClick
